@@ -1,11 +1,11 @@
-#ifndef QUESTFORGE_SRC_MODEL_QUESTION_H
-#define QUESTFORGE_SRC_MODEL_QUESTION_H
+#ifndef QUESTFORGE_MODEL_QUESTION_H_
+#define QUESTFORGE_MODEL_QUESTION_H_
 
-#include <cstdint>
 #include <filesystem>
+#include <optional>
 #include <string>
-#include <tuple>
 #include <vector>
+
 namespace questforge::model {
 
 enum class Difficulty { kEasy, kMedium, kHard };
@@ -14,12 +14,12 @@ struct Question {
   std::string id;
   std::string topic;
   Difficulty difficulty;
-  uint8_t points;
+  int points;
   std::string text;
-  std::filesystem::path image;
+  std::optional<std::filesystem::path> image;
   std::vector<std::string> tags;
 };
 
 }  // namespace questforge::model
 
-#endif  // QUESTFORGE_SRC_MODEL_QUESTION_H
+#endif  // QUESTFORGE_MODEL_QUESTION_H_
