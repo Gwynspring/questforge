@@ -1,0 +1,40 @@
+questions:
+  - id: alg-001
+    topic: algebra
+    difficulty: easy
+    points: 2
+    text: "Löse die Gleichung: $2x + 3 = 7$"
+    image: null
+    tags: [gleichungen, linear]
+
+  - id: alg-002
+    topic: algebra
+    difficulty: easy
+    points: 2
+    text: "Vereinfache den Ausdruck: $3a + 5b - a + 2b$"
+    image: null
+    tags: [terme, vereinfachen]
+
+  - id: alg-003
+    topic: algebra
+    difficulty: medium
+    points: 4
+    text: "Löse das Gleichungssystem:\n$x + y = 5$\n$2x - y = 4$"
+    image: null
+    tags: [gleichungssystem, linear]
+
+  - id: alg-004
+    topic: algebra
+    difficulty: medium
+    points: 3
+    text: "Faktorisiere: $x^2 - 4x + 4$"
+    image: null
+    tags: [faktorisierung, quadratisch]
+
+  - id: alg-005
+    topic: algebra
+    difficulty: hard
+    points: 6
+    text: "Löse die quadratische Gleichung: $x^2 - 5x + 6 = 0$"
+    image: null
+    tags: [gleichungen, quadratisch]

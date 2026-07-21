@@ -1,0 +1,40 @@
+questions:
+  - id: geo-001
+    topic: geometrie
+    difficulty: easy
+    points: 2
+    text: "Berechne den Umfang eines Rechtecks mit den Seiten $a = 4 "text(cm)$" und $b = 6 "text(cm)$"."
+    image: null
+    tags: [rechteck, umfang]
+
+  - id: geo-002
+    topic: geometrie
+    difficulty: easy
+    points: 2
+    text: "Berechne die Fläche eines Dreiecks mit Grundseite $g = 8 "text(cm)$" und Höhe $h = 5 "text(cm)$"."
+    image: null
+    tags: [dreieck, flaeche]
+
+  - id: geo-003
+    topic: geometrie
+    difficulty: medium
+    points: 4
+    text: "Ein Kreis hat den Radius $r = 7 "text(cm)$". Berechne Umfang und Fläche."
+    image: null
+    tags: [kreis, umfang, flaeche]
+
+  - id: geo-004
+    topic: geometrie
+    difficulty: medium
+    points: 3
+    text: "Berechne die fehlende Seite eines rechtwinkligen Dreiecks mit Katheten $a = 3 "text(cm)$" und $b = 4 "text(cm)$"."
+    image: null
+    tags: [pythagoras, dreieck]
+
+  - id: geo-005
+    topic: geometrie
+    difficulty: hard
+    points: 5
+    text: "Ein Trapez hat die parallelen Seiten $a = 6 "text(cm)$" und $c = 10 "text(cm)$" sowie die Höhe $h = 4 "text(cm)$". Berechne die Fläche."
+    image: null
+    tags: [trapez, flaeche]
