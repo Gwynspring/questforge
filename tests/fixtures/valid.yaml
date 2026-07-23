@@ -1,0 +1,16 @@
+questions:
+  - id: alg-001
+    topic: algebra
+    difficulty: easy
+    points: 2
+    text: "Solve the following equation: $2x + 3 = 7$"
+    image: null
+    tags: [equations, linear]
+
+  - id: el-001
+    topic: electrical
+    difficulty: easy
+    points: 2
+    text: "Describe Ohm's law"
+    image: null
+    tags: [electrical]

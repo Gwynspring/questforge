@@ -11,8 +11,7 @@ find_package(inja CONFIG REQUIRED)
 find_package(CLI11 CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 
-add_executable(questforge
-  src/main.cc
+add_library(questforge_lib STATIC
   src/repository/question_repository.cc
   # Uncomment each file as you implement it:
   # src/cli/arg_parser.cc
@@ -20,13 +19,20 @@ add_executable(questforge
   # src/render/typst_renderer.cc
 )
 
-target_include_directories(questforge PRIVATE src)
+target_include_directories(questforge_lib PUBLIC src)
 
-target_link_libraries(questforge PRIVATE
+target_link_libraries(questforge_lib PUBLIC
   yaml-cpp::yaml-cpp
   pantor::inja
-  CLI11::CLI11
   spdlog::spdlog
 )
 
+add_executable(questforge src/main.cc)
+
+target_link_libraries(questforge PRIVATE
+  questforge_lib
+  CLI11::CLI11
+)
+
+enable_testing()
 add_subdirectory(tests)
