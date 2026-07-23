@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Dependencies (installed via vcpkg)
 find_package(yaml-cpp CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
 find_package(CLI11 CONFIG REQUIRED)
@@ -14,10 +13,9 @@ find_package(spdlog CONFIG REQUIRED)
 
 add_executable(questforge
   src/main.cc
+  src/repository/question_repository.cc
   # Uncomment each file as you implement it:
   # src/cli/arg_parser.cc
-  # src/model/question.cc
-  # src/repository/question_repository.cc
   # src/generator/test_generator.cc
   # src/render/typst_renderer.cc
 )
