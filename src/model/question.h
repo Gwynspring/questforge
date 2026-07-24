@@ -18,6 +18,8 @@ struct Question {
   std::string text;
   std::optional<std::filesystem::path> image;
   std::vector<std::string> tags;
+
+  bool operator==(const Question& other) const = default;
 };
 
 }  // namespace questforge::model

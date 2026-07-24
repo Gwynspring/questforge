@@ -15,7 +15,7 @@ add_library(questforge_lib STATIC
   src/repository/question_repository.cc
   # Uncomment each file as you implement it:
   # src/cli/arg_parser.cc
-  # src/generator/test_generator.cc
+  src/generator/test_generator.cc
   # src/render/typst_renderer.cc
 )
 
