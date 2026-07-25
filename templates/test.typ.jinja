@@ -1,0 +1,26 @@
+#set page(margin: 2.5cm)
+#set text(font: "New Computer Modern", size: 11pt)
+
+#grid(
+  columns: (1fr, 1fr),
+  [*Name:* #line(length: 6cm)],
+  [*Datum:* #line(length: 4cm)],
+)
+
+#v(1em)
+#line(length: 100%)
+#v(1em)
+
+{% for question in questions %}
+#block[
+  *{{ loop.index1 }}.* {{ question.text }}
+  #h(1fr) *({{ question.points }} P)*
+  {% if question.image %}
+  #image("{{ question.image }}", width: 60%)
+  {% endif %}
+  #v(3em)
+]
+{% endfor %}
+
+#line(length: 100%)
+#align(right)[*Gesamt: \_\_\_ / {{ total_points }} Punkte*]

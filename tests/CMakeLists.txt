@@ -27,12 +27,18 @@ gtest_discover_tests(test_generator_test
   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 )
 
-# add_executable(typst_renderer_test
-#   typst_renderer_test.cc
-# )
-# target_include_directories(typst_renderer_test PRIVATE ${PROJECT_SOURCE_DIR}/src)
-# target_link_libraries(typst_renderer_test PRIVATE
-#   GTest::gtest_main
-#   pantor::inja
-# )
-# gtest_discover_tests(typst_renderer_test)
+add_executable(typst_renderer_test
+  typst_renderer_test.cc
+)
+target_include_directories(typst_renderer_test PRIVATE ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(typst_renderer_test PRIVATE
+  GTest::gtest_main
+  questforge_lib
+)
+gtest_discover_tests(typst_renderer_test
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+)
+
+target_compile_definitions(typst_renderer_test PRIVATE
+  PROJECT_ROOT="${PROJECT_SOURCE_DIR}"
+)
