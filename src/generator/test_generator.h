@@ -1,8 +1,8 @@
 #ifndef QUESTFORGE_GENERATOR_TEST_GENERATOR_H_
 #define QUESTFORGE_GENERATOR_TEST_GENERATOR_H_
 
+#include <cstdint>
 #include <optional>
-#include <random>
 #include <string>
 #include <vector>
 
@@ -11,10 +11,11 @@
 namespace questforge::generator {
 
 struct FilterCriteria {
+  int easy_count = 0;
+  int medium_count = 0;
+  int hard_count = 0;
   std::optional<std::vector<std::string>> topics;
-  std::optional<model::Difficulty> difficulty;
-  int max_points;
-  std::mt19937::result_type seed;
+  std::optional<uint32_t> seed;
 };
 
 class TestGenerator {

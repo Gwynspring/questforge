@@ -178,8 +178,8 @@ Die Nix devShell ist definiert in `~/GwynOS/modules/dev/questforge.nix` und stel
 - [x] `Question`-Datenmodell definieren (`src/model/question.h`)
 - [x] `QuestionRepository` implementieren (YAML einlesen) + Unit-Tests
 - [x] `TestGenerator` implementieren (filtern, zufällig auswählen) + Unit-Tests
-- [ ] `TypstRenderer` implementieren (Template befüllen, Subprozess) → **aktuell**
-- [ ] `ArgParser` + `main.cc` verdrahten
-- [ ] Beispiel-Typst-Template (`test.typ.jinja`) erstellen
+- [x] `TypstRenderer` implementieren (Template befüllen, Subprozess)
+- [x] Beispiel-Typst-Template (`test.typ.jinja`) erstellen
+- [ ] `ArgParser` + `main.cc` verdrahten → **aktuell**
 - [ ] Erste End-to-End-Pipeline (Katalog laden → auswählen → rendern) als Machbarkeitsnachweis
 - [ ] Später: Lösungsblatt-Generierung, GUI
