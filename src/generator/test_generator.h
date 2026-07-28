@@ -23,6 +23,10 @@ class TestGenerator {
   [[nodiscard]] std::vector<model::Question> Generate(
       const std::vector<model::Question>& questions,
       const FilterCriteria& filter_criteria);
+
+ private:
+  std::vector<model::Question> TakeN(const std::vector<model::Question>& bucket,
+                                     int count, model::Difficulty difficulty);
 };
 }  // namespace questforge::generator
 

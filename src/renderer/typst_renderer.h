@@ -10,7 +10,7 @@ namespace questforge::renderer {
 
 class TypstRenderer {
  public:
-  TypstRenderer(const std::filesystem::path& template_path)
+  explicit TypstRenderer(const std::filesystem::path& template_path)
       : template_path_(template_path) {}
 
   // Throws std::runtime_error if an error occurs

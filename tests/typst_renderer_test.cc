@@ -1,4 +1,4 @@
-#include "render/typst_renderer.h"
+#include "renderer/typst_renderer.h"
 
 #include <gtest/gtest.h>
 
@@ -6,7 +6,9 @@
 #include <fstream>
 #include <vector>
 
-TEST(RendererTest, RenderQuestionSuccesful) {
+// TODO: Cover the image branch (a question with an image) and the failure path
+// (non-existent template path should throw).
+TEST(RendererTest, RenderQuestionSuccessful) {
   questforge::model::Question q = {"alg-001",
                                    "algebra",
                                    questforge::model::Difficulty::kEasy,

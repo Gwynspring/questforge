@@ -5,10 +5,26 @@
 #include <iterator>
 #include <random>
 #include <stdexcept>
+#include <string_view>
 
 namespace questforge::generator {
 
-[[nodiscard]] std::vector<model::Question> TestGenerator::Generate(
+std::vector<model::Question> TestGenerator::TakeN(
+    const std::vector<model::Question>& bucket, int count,
+    model::Difficulty difficulty) {
+  if (bucket.size() < static_cast<size_t>(count)) {
+    std::string_view difficulty_string = model::DifficultyName(difficulty);
+    throw std::runtime_error(std::format(
+        "not enough {} questions available. Available {} questions: {}",
+        difficulty_string, difficulty_string, bucket.size()));
+  }
+  std::vector<model::Question> result;
+  std::copy_n(bucket.begin(), count, std::back_inserter(result));
+
+  return result;
+}
+
+std::vector<model::Question> TestGenerator::Generate(
     const std::vector<model::Question>& questions,
     const FilterCriteria& filter_criteria) {
   std::vector<model::Question> easy, medium, hard;
@@ -42,38 +58,28 @@ namespace questforge::generator {
   } else {
     seed = filter_criteria.seed.value();
   }
+
   std::mt19937 mt(seed);
 
   std::shuffle(easy.begin(), easy.end(), mt);
   std::shuffle(medium.begin(), medium.end(), mt);
   std::shuffle(hard.begin(), hard.end(), mt);
 
-  if (easy.size() < static_cast<size_t>(filter_criteria.easy_count)) {
-    throw std::runtime_error(
-        std::format("Not enough easy questions available after filtering. Easy "
-                    "questions available after filtering: {}",
-                    easy.size()));
-  } else if (medium.size() <
-             static_cast<size_t>(filter_criteria.medium_count)) {
-    throw std::runtime_error(std::format(
-        "Not enough medium questions available after filtering. Medium "
-        "questions available after filtering: {}",
-        medium.size()));
-  } else if (hard.size() < static_cast<size_t>(filter_criteria.hard_count)) {
-    throw std::runtime_error(
-        std::format("Not enough hard questions available after filtering. Hard "
-                    "questions available after filtering: {}",
-                    hard.size()));
-  }
+  auto easy_selected =
+      TakeN(easy, filter_criteria.easy_count, model::Difficulty::kEasy);
+  auto medium_selected =
+      TakeN(medium, filter_criteria.medium_count, model::Difficulty::kMedium);
+  auto hard_selected =
+      TakeN(hard, filter_criteria.hard_count, model::Difficulty::kHard);
 
   std::vector<model::Question> selected;
 
-  std::copy_n(easy.begin(), filter_criteria.easy_count,
-              std::back_inserter(selected));
-  std::copy_n(medium.begin(), filter_criteria.medium_count,
-              std::back_inserter(selected));
-  std::copy_n(hard.begin(), filter_criteria.hard_count,
-              std::back_inserter(selected));
+  std::move(easy_selected.begin(), easy_selected.end(),
+            std::back_inserter(selected));
+  std::move(medium_selected.begin(), medium_selected.end(),
+            std::back_inserter(selected));
+  std::move(hard_selected.begin(), hard_selected.end(),
+            std::back_inserter(selected));
 
   return selected;
 }

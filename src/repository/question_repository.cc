@@ -8,6 +8,8 @@
 
 namespace questforge::repository {
 
+// TODO: Add semantic validation beyond type checks: reject empty id/text,
+// non-positive points, and duplicate ids across the catalog.
 std::vector<model::Question> QuestionRepository::LoadCatalog(
     const std::filesystem::path& path) {
   std::vector<model::Question> questions;
@@ -18,16 +20,15 @@ std::vector<model::Question> QuestionRepository::LoadCatalog(
       q.id = entry["id"].as<std::string>();
       q.topic = entry["topic"].as<std::string>();
 
-      std::string difficulty = entry["difficulty"].as<std::string>();
-      if (difficulty == "easy") {
-        q.difficulty = model::Difficulty::kEasy;
-      } else if (difficulty == "medium") {
-        q.difficulty = model::Difficulty::kMedium;
-      } else if (difficulty == "hard") {
-        q.difficulty = model::Difficulty::kHard;
-      } else {
-        throw std::invalid_argument("Invalid difficulty declaration");
+      std::string difficulty_string = entry["difficulty"].as<std::string>();
+
+      auto difficulty = model::StringToDifficulty(difficulty_string);
+      if (!difficulty) {
+        throw std::invalid_argument("invalid difficulty declaration: " +
+                                    difficulty_string);
       }
+      q.difficulty = *difficulty;
+
       q.points = entry["points"].as<int>();
       q.text = entry["text"].as<std::string>();
       if (entry["image"].IsDefined() && !entry["image"].IsNull()) {

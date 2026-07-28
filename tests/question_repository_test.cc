@@ -2,6 +2,8 @@
 
 #include <gtest/gtest.h>
 
+// TODO: Cover image parsing (null vs. set path) and an empty catalog. Use the
+// PROJECT_ROOT macro for fixture paths instead of CWD-relative strings.
 TEST(QuestionRepositoryTest, LoadsCatalogSuccessfully) {
   questforge::repository::QuestionRepository repo;
   auto questions = repo.LoadCatalog("tests/fixtures/valid.yaml");

@@ -66,7 +66,10 @@ class TestGeneratorTest : public ::testing::Test {
   questforge::generator::FilterCriteria fc_not_enough_questions{10, 10, 10};
 };
 
-TEST_F(TestGeneratorTest, GenerateQuestionsSuccesful) {
+// TODO: Assert the exact selection count per difficulty (e.g. {1,1,1} yields
+// three questions, one of each) and that a different seed (very likely) yields
+// a different order.
+TEST_F(TestGeneratorTest, GenerateQuestionsSuccessful) {
   std::vector<questforge::model::Question> result =
       generator_.Generate(questions_, fc_with_seed_with_topic);
 
@@ -78,7 +81,7 @@ TEST_F(TestGeneratorTest, GenerateQuestionsSuccesful) {
   }
 }
 
-TEST_F(TestGeneratorTest, EmptyInputThrowException) {
+TEST_F(TestGeneratorTest, EmptyInputThrowsException) {
   EXPECT_THROW((void)generator_.Generate({}, fc_no_seed_no_topic),
                std::runtime_error);
 }
@@ -104,7 +107,7 @@ TEST_F(TestGeneratorTest, SameSeedGivesSameOrder) {
   EXPECT_EQ(result_1, result_2);
 }
 
-TEST_F(TestGeneratorTest, NotEnoghQuestionsAfterFiltering) {
+TEST_F(TestGeneratorTest, NotEnoughQuestionsAfterFiltering) {
   EXPECT_THROW((void)generator_.Generate(questions_, fc_not_enough_questions),
                std::runtime_error);
 }
