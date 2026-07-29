@@ -1,10 +1,11 @@
 #include "renderer/typst_renderer.h"
 
-#include <cstdlib>
 #include <format>
 #include <fstream>
 #include <inja/inja.hpp>
 #include <stdexcept>
+#include <string>
+#include <vector>
 
 namespace questforge::renderer {
 
@@ -52,18 +53,10 @@ void TypstRenderer::Render(
         "Output file {} was not closed successfully.", typ_path.string()));
   }
 
-  // TODO: Harden the subprocess call: escape/quote paths (spaces, shell
-  // metacharacters), evaluate the real exit code (WEXITSTATUS on POSIX) instead
-  // of the raw std::system return value, and capture typst's stderr so failures
-  // report why. Keep it cross-platform.
-  std::string command =
-      "typst compile " + typ_path.string() + " " + output_path.string();
+  std::vector<std::string> args{"typst", "compile", typ_path.string(),
+                                output_path.string()};
 
-  int result = std::system(command.c_str());
-
-  if (result != 0) {
-    throw std::runtime_error("Could not process command " + command);
-  }
+  runner_->Run(args);
 }
 
 }  // namespace questforge::renderer

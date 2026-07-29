@@ -32,6 +32,7 @@ add_executable(typst_renderer_test
 )
 target_include_directories(typst_renderer_test PRIVATE ${PROJECT_SOURCE_DIR}/src)
 target_link_libraries(typst_renderer_test PRIVATE
+  GTest::gmock
   GTest::gtest_main
   questforge_lib
 )
