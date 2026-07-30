@@ -12,9 +12,8 @@ find_package(CLI11 CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 
 add_library(questforge_lib STATIC
+  src/cli/arg_parser.cc
   src/repository/question_repository.cc
-  # Uncomment each file as you implement it:
-  # src/cli/arg_parser.cc
   src/generator/test_generator.cc
   src/platform/process_runner.cc
   src/renderer/typst_renderer.cc
@@ -26,6 +25,7 @@ target_link_libraries(questforge_lib PUBLIC
   yaml-cpp::yaml-cpp
   pantor::inja
   spdlog::spdlog
+  CLI11::CLI11
 )
 
 add_executable(questforge src/main.cc)
