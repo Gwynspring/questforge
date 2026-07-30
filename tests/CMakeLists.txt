@@ -3,6 +3,18 @@ include(GoogleTest)
 
 # Uncomment each test target as you implement the corresponding source:
 
+add_executable(arg_parser_test
+  arg_parser_test.cc
+)
+target_include_directories(arg_parser_test PRIVATE ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(arg_parser_test PRIVATE
+  GTest::gtest_main
+  questforge_lib
+)
+gtest_discover_tests(arg_parser_test
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+)
+
 add_executable(question_repository_test
   question_repository_test.cc
 )
