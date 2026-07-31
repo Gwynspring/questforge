@@ -20,6 +20,7 @@ add_executable(question_repository_test
 )
 target_include_directories(question_repository_test PRIVATE ${PROJECT_SOURCE_DIR}/src)
 target_link_libraries(question_repository_test PRIVATE
+  GTest::gmock
   GTest::gtest_main
   questforge_lib
 )

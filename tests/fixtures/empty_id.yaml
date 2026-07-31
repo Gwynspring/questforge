@@ -1,0 +1,8 @@
+questions:
+  - id: ""
+    topic: algebra
+    difficulty: easy
+    points: 2
+    text: "Solve the following equation: $2x + 3 = 7$"
+    image: null
+    tags: [equations, linear]

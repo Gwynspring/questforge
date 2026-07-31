@@ -2,16 +2,41 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include <format>
 #include <stdexcept>
+#include <string>
+#include <unordered_set>
 
 #include "model/question.h"
 
 namespace questforge::repository {
 
-// TODO: Add semantic validation beyond type checks: reject empty id/text,
-// non-positive points, and duplicate ids across the catalog.
+namespace {
+
+void ValidateQuestion(const model::Question& q) {
+  if (q.id.empty()) {
+    throw std::invalid_argument(
+        "invalid declaration of question id. The id must not be empty");
+  }
+  if (q.text.empty()) {
+    throw std::invalid_argument(std::format(
+        "invalid declaration of question text. Question {} text must not be "
+        "empty",
+        q.id));
+  }
+  if (q.points <= 0) {
+    throw std::invalid_argument(
+        std::format("invalid declaration of question points. Points must be "
+                    "greater than 0. Points declared in question {}: {}",
+                    q.id, q.points));
+  }
+}
+
+}  // namespace
+
 std::vector<model::Question> QuestionRepository::LoadCatalog(
     const std::filesystem::path& path) {
+  std::unordered_set<std::string> id_set;
   std::vector<model::Question> questions;
   try {
     YAML::Node root = YAML::LoadFile(path.string());
@@ -36,6 +61,14 @@ std::vector<model::Question> QuestionRepository::LoadCatalog(
         q.image = p;
       }
       q.tags = entry["tags"].as<std::vector<std::string>>();
+
+      ValidateQuestion(q);
+
+      if (!id_set.insert(q.id).second) {
+        throw std::invalid_argument(
+            std::format("duplicated question id found: {}", q.id));
+      }
+
       questions.push_back(q);
     }
   } catch (const YAML::Exception& e) {

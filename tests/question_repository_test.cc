@@ -1,12 +1,15 @@
 #include "repository/question_repository.h"
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-// TODO: Cover image parsing (null vs. set path) and an empty catalog. Use the
-// PROJECT_ROOT macro for fixture paths instead of CWD-relative strings.
-TEST(QuestionRepositoryTest, LoadsCatalogSuccessfully) {
-  questforge::repository::QuestionRepository repo;
-  auto questions = repo.LoadCatalog("tests/fixtures/valid.yaml");
+class QuestionRepositoryTest : public ::testing::Test {
+ protected:
+  questforge::repository::QuestionRepository repo_;
+};
+
+TEST_F(QuestionRepositoryTest, LoadsCatalogSuccessfully) {
+  auto questions = repo_.LoadCatalog("tests/fixtures/valid.yaml");
 
   EXPECT_EQ(questions.size(), 2u);
   EXPECT_EQ(questions.at(0).id, "alg-001");
@@ -16,20 +19,60 @@ TEST(QuestionRepositoryTest, LoadsCatalogSuccessfully) {
   EXPECT_EQ(questions.at(0).tags.at(0), "equations");
 }
 
-TEST(QuestionRepositoryTest, ThrowsInvalidArgumentForDifficulty) {
-  questforge::repository::QuestionRepository repo;
-
-  EXPECT_THROW(repo.LoadCatalog("tests/fixtures/invalid_difficulty.yaml"),
-               std::invalid_argument);
+// This test with try - catch is only for personal demonstration of a different
+// kind of testing strategy
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForDifficulty) {
+  try {
+    repo_.LoadCatalog("tests/fixtures/invalid_difficulty.yaml");
+    FAIL();
+  } catch (const std::invalid_argument& e) {
+    EXPECT_THAT(e.what(), testing::HasSubstr("difficulty"));
+  }
 }
 
-TEST(QuestionRepositoryTest, ThrowsRuntimeErrorForPoints) {
-  questforge::repository::QuestionRepository repo;
-  EXPECT_THROW(repo.LoadCatalog("tests/fixtures/invalid_points.yaml"),
-               std::runtime_error);
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForPoints) {
+  EXPECT_THAT(
+      [this] { repo_.LoadCatalog("tests/fixtures/non_positive_points.yaml"); },
+      testing::ThrowsMessage<std::invalid_argument>(
+          testing::HasSubstr("Points must be")));
 }
 
-TEST(QuestionRepositoryTest, ThrowsRuntimeErrorForInvalidPath) {
-  questforge::repository::QuestionRepository repo;
-  EXPECT_THROW(repo.LoadCatalog("load/invalid/path.yaml"), std::runtime_error);
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForDuplicateID) {
+  EXPECT_THAT([this] { repo_.LoadCatalog("tests/fixtures/duplicate_id.yaml"); },
+              testing::ThrowsMessage<std::invalid_argument>(
+                  testing::HasSubstr("duplicated question")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForEmptyText) {
+  EXPECT_THAT([this] { repo_.LoadCatalog("tests/fixtures/empty_text.yaml"); },
+              testing::ThrowsMessage<std::invalid_argument>(
+                  testing::HasSubstr("text must not be")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForEmptyID) {
+  EXPECT_THAT([this] { repo_.LoadCatalog("tests/fixtures/empty_id.yaml"); },
+              testing::ThrowsMessage<std::invalid_argument>(
+                  testing::HasSubstr("id must not be")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForEmptyDifficulty) {
+  EXPECT_THAT(
+      [this] { repo_.LoadCatalog("tests/fixtures/empty_difficulty.yaml"); },
+      testing::ThrowsMessage<std::invalid_argument>(
+          testing::HasSubstr("invalid difficulty")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsRuntimeErrorForInvalidPoints) {
+  EXPECT_THAT([this] { repo_.LoadCatalog("tests/fixtures/not_a_number.yaml"); },
+              testing::ThrowsMessage<std::runtime_error>(
+                  testing::HasSubstr("Failed to load catalog:")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsRuntimeErrorForInvalidPath) {
+  try {
+    repo_.LoadCatalog("this/is/an/invalid/path.yaml");
+    FAIL();
+  } catch (const std::runtime_error& e) {
+    EXPECT_THAT(e.what(), testing::HasSubstr("Failed to load catalog"));
+  }
 }

@@ -1,10 +1,8 @@
 questions:
   - id: alg-001
     topic: algebra
-    difficulty: easy
-    points: "not_a_number"
+    difficulty: ""
+    points: 2
     text: "Solve the following equation: $2x + 3 = 7$"
     image: null
     tags: [equations, linear]
-
-
