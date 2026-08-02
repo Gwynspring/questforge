@@ -101,7 +101,7 @@ Available options for `generate`:
 | `--easy` | no | Number of easy questions to select (default: 0). |
 | `--medium` | no | Number of medium questions to select (default: 0). |
 | `--hard` | no | Number of hard questions to select (default: 0). |
-| `--topics` | no | Comma-separated list of topics to filter by (e.g. `algebra,geometrie`). |
+| `--topics` | no | Comma-separated list of topics to filter by (e.g. `algebra,geometry`). |
 | `-s, --seed` | no | Explicit random seed for reproducible selection. |
 | `--template` | no | Path to the Typst template (default: `templates/test.typ.jinja`). |
 

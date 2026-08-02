@@ -3,38 +3,118 @@ questions:
     topic: algebra
     difficulty: easy
     points: 2
-    text: "Löse die Gleichung: $2x + 3 = 7$"
+    text: "Solve the equation: $2x + 3 = 7$"
     image: null
-    tags: [gleichungen, linear]
+    tags: [equations, linear]
 
   - id: alg-002
     topic: algebra
     difficulty: easy
     points: 2
-    text: "Vereinfache den Ausdruck: $3a + 5b - a + 2b$"
+    text: "Simplify the expression: $3a + 5b - a + 2b$"
     image: null
-    tags: [terme, vereinfachen]
+    tags: [terms, simplifying]
 
   - id: alg-003
     topic: algebra
-    difficulty: medium
-    points: 4
-    text: "Löse das Gleichungssystem:\n$x + y = 5$\n$2x - y = 4$"
+    difficulty: easy
+    points: 2
+    text: "Solve the equation: $5x = 20$"
     image: null
-    tags: [gleichungssystem, linear]
+    tags: [equations, linear]
 
   - id: alg-004
     topic: algebra
-    difficulty: medium
-    points: 3
-    text: "Faktorisiere: $x^2 - 4x + 4$"
+    difficulty: easy
+    points: 2
+    text: "Simplify the expression: $4x + 7 - 2x + 3$"
     image: null
-    tags: [faktorisierung, quadratisch]
+    tags: [terms, simplifying]
 
   - id: alg-005
     topic: algebra
+    difficulty: easy
+    points: 2
+    text: "Solve the equation: $frac(x, 3) = 6$"
+    image: null
+    tags: [equations, linear]
+
+  - id: alg-006
+    topic: algebra
+    difficulty: medium
+    points: 4
+    text: "Solve the system of equations:\n$x + y = 5$\n$2x - y = 4$"
+    image: null
+    tags: [system-of-equations, linear]
+
+  - id: alg-007
+    topic: algebra
+    difficulty: medium
+    points: 3
+    text: "Factor the expression: $x^2 - 4x + 4$"
+    image: null
+    tags: [factoring, quadratic]
+
+  - id: alg-008
+    topic: algebra
+    difficulty: medium
+    points: 3
+    text: "Solve the equation: $3x - 7 = 2x + 5$"
+    image: null
+    tags: [equations, linear]
+
+  - id: alg-009
+    topic: algebra
+    difficulty: medium
+    points: 4
+    text: "Expand and simplify: $(2x + 3)(x - 1)$"
+    image: null
+    tags: [terms, expanding]
+
+  - id: alg-010
+    topic: algebra
+    difficulty: medium
+    points: 3
+    text: "Solve the equation for $x$: $2(x + 3) = 5x - 3$"
+    image: null
+    tags: [equations, linear]
+
+  - id: alg-011
+    topic: algebra
     difficulty: hard
     points: 6
-    text: "Löse die quadratische Gleichung: $x^2 - 5x + 6 = 0$"
+    text: "Solve the quadratic equation: $x^2 - 5x + 6 = 0$"
     image: null
-    tags: [gleichungen, quadratisch]
+    tags: [equations, quadratic]
+
+  - id: alg-012
+    topic: algebra
+    difficulty: hard
+    points: 6
+    text: "Solve the quadratic equation: $2x^2 + 3x - 5 = 0$"
+    image: null
+    tags: [equations, quadratic]
+
+  - id: alg-013
+    topic: algebra
+    difficulty: hard
+    points: 7
+    text: "Solve the system of equations:\n$x + y + z = 6$\n$2x - y + z = 3$\n$x + 2y - z = 4$"
+    image: null
+    tags: [system-of-equations, linear]
+
+  - id: alg-014
+    topic: algebra
+    difficulty: hard
+    points: 5
+    text: "Simplify the rational expression: $frac(x^2 - 9, x - 3)$"
+    image: null
+    tags: [rational-expressions, factoring]
+
+  - id: alg-015
+    topic: algebra
+    difficulty: hard
+    points: 5
+    text: "Solve the inequality: $x^2 - 4 > 0$"
+    image: null
+    tags: [inequalities, quadratic]

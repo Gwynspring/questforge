@@ -1,0 +1,120 @@
+questions:
+  - id: geo-001
+    topic: geometry
+    difficulty: easy
+    points: 2
+    text: "Calculate the perimeter of a rectangle with sides $a = 4 \"cm\"$ and $b = 6 \"cm\"$."
+    image: null
+    tags: [rectangle, perimeter]
+
+  - id: geo-002
+    topic: geometry
+    difficulty: easy
+    points: 2
+    text: "Calculate the area of a triangle with base $g = 8 \"cm\"$ and height $h = 5 \"cm\"$."
+    image: null
+    tags: [triangle, area]
+
+  - id: geo-003
+    topic: geometry
+    difficulty: easy
+    points: 2
+    text: "Calculate the area of a square with side length $a = 5 \"cm\"$."
+    image: null
+    tags: [square, area]
+
+  - id: geo-004
+    topic: geometry
+    difficulty: easy
+    points: 2
+    text: "Calculate the perimeter of a square with side length $a = 7 \"cm\"$."
+    image: null
+    tags: [square, perimeter]
+
+  - id: geo-005
+    topic: geometry
+    difficulty: easy
+    points: 2
+    text: "Calculate the area of a rectangle with sides $a = 5 \"cm\"$ and $b = 9 \"cm\"$."
+    image: null
+    tags: [rectangle, area]
+
+  - id: geo-006
+    topic: geometry
+    difficulty: medium
+    points: 4
+    text: "A circle has radius $r = 7 \"cm\"$. Calculate its circumference and area."
+    image: null
+    tags: [circle, circumference, area]
+
+  - id: geo-007
+    topic: geometry
+    difficulty: medium
+    points: 3
+    text: "Calculate the missing side of a right triangle with legs $a = 3 \"cm\"$ and $b = 4 \"cm\"$."
+    image: null
+    tags: [pythagorean-theorem, triangle]
+
+  - id: geo-008
+    topic: geometry
+    difficulty: medium
+    points: 3
+    text: "Calculate the area of a parallelogram with base $g = 6 \"cm\"$ and height $h = 4 \"cm\"$."
+    image: null
+    tags: [parallelogram, area]
+
+  - id: geo-009
+    topic: geometry
+    difficulty: medium
+    points: 4
+    text: "Calculate the volume of a cuboid with edge lengths $3 \"cm\"$, $4 \"cm\"$ and $5 \"cm\"$."
+    image: null
+    tags: [cuboid, volume]
+
+  - id: geo-010
+    topic: geometry
+    difficulty: medium
+    points: 4
+    text: "A circle has diameter $d = 10 \"cm\"$. Calculate its radius and area."
+    image: null
+    tags: [circle, area]
+
+  - id: geo-011
+    topic: geometry
+    difficulty: hard
+    points: 5
+    text: "A trapezoid has parallel sides $a = 6 \"cm\"$ and $c = 10 \"cm\"$ and height $h = 4 \"cm\"$. Calculate its area."
+    image: null
+    tags: [trapezoid, area]
+
+  - id: geo-012
+    topic: geometry
+    difficulty: hard
+    points: 6
+    text: "A cylinder has radius $r = 3 \"cm\"$ and height $h = 8 \"cm\"$. Calculate its volume and surface area."
+    image: null
+    tags: [cylinder, volume, surface-area]
+
+  - id: geo-013
+    topic: geometry
+    difficulty: hard
+    points: 6
+    text: "A cone has radius $r = 4 \"cm\"$ and height $h = 9 \"cm\"$. Calculate its volume."
+    image: null
+    tags: [cone, volume]
+
+  - id: geo-014
+    topic: geometry
+    difficulty: hard
+    points: 5
+    text: "Calculate the length of the space diagonal of a cuboid with edge lengths $3 \"cm\"$, $4 \"cm\"$ and $12 \"cm\"$."
+    image: null
+    tags: [cuboid, diagonal]
+
+  - id: geo-015
+    topic: geometry
+    difficulty: hard
+    points: 6
+    text: "Calculate the area of a regular hexagon with side length $a = 6 \"cm\"$."
+    image: null
+    tags: [hexagon, area]

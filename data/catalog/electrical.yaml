@@ -1,0 +1,120 @@
+questions:
+  - id: el-001
+    topic: electrical
+    difficulty: easy
+    points: 2
+    text: "State Ohm's law and explain what each symbol represents."
+    image: null
+    tags: [ohms-law, theory]
+
+  - id: el-002
+    topic: electrical
+    difficulty: easy
+    points: 2
+    text: "A resistor has voltage $U = 12 \"V\"$ and resistance $R = 4 \"Ω\"$. Calculate the current $I$."
+    image: null
+    tags: [ohms-law, current]
+
+  - id: el-003
+    topic: electrical
+    difficulty: easy
+    points: 2
+    text: "A circuit has voltage $U = 9 \"V\"$ and current $I = 3 \"A\"$. Calculate the resistance $R$."
+    image: null
+    tags: [ohms-law, resistance]
+
+  - id: el-004
+    topic: electrical
+    difficulty: easy
+    points: 2
+    text: "A resistor carries current $I = 2 \"A\"$ and has resistance $R = 5 \"Ω\"$. Calculate the voltage $U$ across it."
+    image: null
+    tags: [ohms-law, voltage]
+
+  - id: el-005
+    topic: electrical
+    difficulty: easy
+    points: 2
+    text: "Name the SI unit of electrical current and the SI unit of electrical resistance."
+    image: null
+    tags: [units, theory]
+
+  - id: el-006
+    topic: electrical
+    difficulty: medium
+    points: 3
+    text: "Three resistors $R_1 = 2 \"Ω\"$, $R_2 = 3 \"Ω\"$ and $R_3 = 5 \"Ω\"$ are connected in series. Calculate the total resistance."
+    image: null
+    tags: [series-circuit, resistance]
+
+  - id: el-007
+    topic: electrical
+    difficulty: medium
+    points: 4
+    text: "Two resistors $R_1 = 6 \"Ω\"$ and $R_2 = 3 \"Ω\"$ are connected in parallel. Calculate the total resistance."
+    image: null
+    tags: [parallel-circuit, resistance]
+
+  - id: el-008
+    topic: electrical
+    difficulty: medium
+    points: 3
+    text: "A device operates at $U = 230 \"V\"$ and draws current $I = 2 \"A\"$. Calculate the electrical power $P$."
+    image: null
+    tags: [power, ohms-law]
+
+  - id: el-009
+    topic: electrical
+    difficulty: medium
+    points: 4
+    text: "A resistor with $R = 10 \"Ω\"$ carries current $I = 2 \"A\"$. Calculate the power dissipated as heat."
+    image: null
+    tags: [power, resistance]
+
+  - id: el-010
+    topic: electrical
+    difficulty: medium
+    points: 4
+    text: "Two resistors $R_1 = 4 \"Ω\"$ and $R_2 = 6 \"Ω\"$ are connected in series to a $20 \"V\"$ source. Calculate the current flowing through the circuit."
+    image: null
+    tags: [series-circuit, ohms-law]
+
+  - id: el-011
+    topic: electrical
+    difficulty: hard
+    points: 6
+    text: "A circuit has $R_1 = 4 \"Ω\"$ in series with the parallel combination of $R_2 = 6 \"Ω\"$ and $R_3 = 3 \"Ω\"$. Calculate the total resistance."
+    image: null
+    tags: [series-circuit, parallel-circuit, resistance]
+
+  - id: el-012
+    topic: electrical
+    difficulty: hard
+    points: 5
+    text: "State Kirchhoff's voltage law and apply it to a simple series circuit with two resistors and one voltage source."
+    image: null
+    tags: [kirchhoffs-law, theory]
+
+  - id: el-013
+    topic: electrical
+    difficulty: hard
+    points: 5
+    text: "A capacitor with capacitance $C = 100 \"μF\"$ is charged to $U = 12 \"V\"$. Calculate the energy stored in the capacitor."
+    image: null
+    tags: [capacitor, energy]
+
+  - id: el-014
+    topic: electrical
+    difficulty: hard
+    points: 5
+    text: "Two capacitors $C_1 = 4 \"μF\"$ and $C_2 = 6 \"μF\"$ are connected in series. Calculate the equivalent capacitance."
+    image: null
+    tags: [capacitor, series-circuit]
+
+  - id: el-015
+    topic: electrical
+    difficulty: hard
+    points: 6
+    text: "An RC circuit has $R = 1 \"kΩ\"$ and $C = 470 \"μF\"$. Calculate the time constant $tau$ and briefly explain its physical significance."
+    image: null
+    tags: [rc-circuit, time-constant]
