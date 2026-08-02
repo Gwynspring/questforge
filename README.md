@@ -11,6 +11,7 @@ A C++20 command-line tool that assembles randomized exams from a YAML question c
 - [Project status](#project-status)
 - [Contributing](#contributing)
 - [License](#license)
+- [Third-party notices](#third-party-notices)
 
 ## What it does
 
@@ -131,4 +132,7 @@ This is a private learning project. It's not accepting contributions or pull req
 
 ## License
 MIT — see [LICENSE](LICENSE).
+
+## Third-party notices
+questforge links against yaml-cpp, inja, CLI11, and spdlog (all MIT/BSD-3-Clause) and shells out to the separately-installed [Typst](https://typst.app) CLI. License texts for everything bundled into the compiled binary are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
