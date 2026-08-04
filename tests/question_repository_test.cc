@@ -76,3 +76,5 @@ TEST_F(QuestionRepositoryTest, ThrowsRuntimeErrorForInvalidPath) {
     EXPECT_THAT(e.what(), testing::HasSubstr("Failed to load catalog"));
   }
 }
+
+// TODO: Add tests for new function ValidateQuestionNode

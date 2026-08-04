@@ -32,6 +32,29 @@ void ValidateQuestion(const model::Question& q) {
   }
 }
 
+void ValidateQuestionNode(const YAML::Node& node) {
+  if (!node.IsSequence()) {
+    switch (node.Type()) {
+      case YAML::NodeType::Null:
+        throw std::invalid_argument(
+            "the 'questions' key is present but empty; expected a list of "
+            "questions");
+      case YAML::NodeType::Scalar:
+        throw std::invalid_argument(
+            "expected 'questions' to be a list, but found a scalar value");
+      case YAML::NodeType::Map:
+        throw std::invalid_argument(
+            "expected 'questions' to be a list, but found a map value");
+      case YAML::NodeType::Undefined:
+        throw std::invalid_argument(
+            "catalog is missing the required 'questions' key");
+      default:
+        throw std::invalid_argument(
+            "unexpected error occurred while loading node from file");
+    }
+  }
+}
+
 }  // namespace
 
 std::vector<model::Question> QuestionRepository::LoadCatalog(
@@ -40,6 +63,12 @@ std::vector<model::Question> QuestionRepository::LoadCatalog(
   std::vector<model::Question> questions;
   try {
     YAML::Node root = YAML::LoadFile(path.string());
+    try {
+      ValidateQuestionNode(root["questions"]);
+    } catch (const std::exception& e) {
+      throw std::runtime_error("Failed to load catalog: " +
+                               std::string(e.what()));
+    }
     for (const auto& entry : root["questions"]) {
       model::Question q;
       q.id = entry["id"].as<std::string>();
