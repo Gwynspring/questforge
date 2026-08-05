@@ -77,4 +77,32 @@ TEST_F(QuestionRepositoryTest, ThrowsRuntimeErrorForInvalidPath) {
   }
 }
 
-// TODO: Add tests for new function ValidateQuestionNode
+TEST_F(QuestionRepositoryTest, ThrowsRuntimeErrorForNullQuestions) {
+  EXPECT_THAT(
+      [this] { repo_.LoadCatalog("tests/fixtures/null_questions.yaml"); },
+      testing::ThrowsMessage<std::runtime_error>(
+          testing::HasSubstr("the 'questions' key is present but empty")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsRuntimeErrorForScalarQuestions) {
+  EXPECT_THAT(
+      [this] { repo_.LoadCatalog("tests/fixtures/scalar_questions.yaml"); },
+      testing::ThrowsMessage<std::runtime_error>(
+          testing::HasSubstr("but found a scalar value")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsRuntimeErrorForMapQuestions) {
+  EXPECT_THAT(
+      [this] { repo_.LoadCatalog("tests/fixtures/map_questions.yaml"); },
+      testing::ThrowsMessage<std::runtime_error>(
+          testing::HasSubstr("but found a map value")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsRuntimeErrorForMissingKey) {
+  EXPECT_THAT(
+      [this] {
+        repo_.LoadCatalog("tests/fixtures/missing_questions_key.yaml");
+      },
+      testing::ThrowsMessage<std::runtime_error>(
+          testing::HasSubstr("missing the required 'questions' key")));
+}
