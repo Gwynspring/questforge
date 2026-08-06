@@ -10,9 +10,9 @@ CliOptions ArgParser::Parse(int argc, char* argv[]) {
   gen->add_option("-c,--catalog", opts.catalog)->required();
   gen->add_option("--template", opts.typst_template);
   gen->add_option("-o,--out", opts.output)->required();
-  gen->add_option("--easy", opts.easy_count);
-  gen->add_option("--medium", opts.medium_count);
-  gen->add_option("--hard", opts.hard_count);
+  gen->add_option("--easy", opts.easy_count)->check(CLI::NonNegativeNumber);
+  gen->add_option("--medium", opts.medium_count)->check(CLI::NonNegativeNumber);
+  gen->add_option("--hard", opts.hard_count)->check(CLI::NonNegativeNumber);
   gen->add_option("-s,--seed", opts.seed);
   gen->add_option("--topics", opts.topics)->delimiter(',');
 

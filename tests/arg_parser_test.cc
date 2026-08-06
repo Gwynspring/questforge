@@ -48,3 +48,10 @@ TEST(ArgParserTest, DefaultOptsSetCorrectly) {
   // TODO: Templatepath has to be changed when CliOptions struct gets refactored
   EXPECT_EQ(opts.typst_template, "templates/test.typ.jinja");
 }
+
+TEST(ArgParserTest, ThrowErrorForNegativeNumber) {
+  EXPECT_THROW(ParseArgs({"questforge", "generate", "--catalog", "cat.yaml",
+                          "--out", "t.pdf", "--easy", "-2", "--medium", "2",
+                          "--seed", "42", "--topics", "a,b"}),
+               CLI::ParseError);
+}
