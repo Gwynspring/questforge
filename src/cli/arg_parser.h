@@ -1,12 +1,13 @@
 #ifndef QUESTFORGE_CLI_ARG_PARSER_H_
 #define QUESTFORGE_CLI_ARG_PARSER_H_
 
-#include <CLI/CLI.hpp>
 #include <cstdint>
 #include <filesystem>
 #include <optional>
 #include <string>
 #include <vector>
+
+#include <CLI/CLI.hpp>
 
 namespace questforge::cli {
 

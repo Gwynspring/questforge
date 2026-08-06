@@ -1,7 +1,8 @@
-#include <CLI/App.hpp>
 #include <cstdlib>
 #include <iostream>
 #include <vector>
+
+#include <CLI/App.hpp>
 
 #include "cli/arg_parser.h"
 #include "generator/test_generator.h"

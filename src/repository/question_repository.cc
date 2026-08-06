@@ -1,11 +1,11 @@
 #include "repository/question_repository.h"
 
-#include <yaml-cpp/yaml.h>
-
 #include <format>
 #include <stdexcept>
 #include <string>
 #include <unordered_set>
+
+#include <yaml-cpp/yaml.h>
 
 #include "model/question.h"
 

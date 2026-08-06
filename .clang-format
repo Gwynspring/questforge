@@ -1,1 +1,18 @@
 BasedOnStyle: Google
+IncludeBlocks: Regroup
+IncludeCategories:
+  # C system headers, e.g. <unistd.h>, <sys/wait.h>.
+  - Regex: '^<(sys/|unistd\.h|fcntl\.h|signal\.h|pthread\.h|dirent\.h)'
+    Priority: 1
+  # C++ standard library headers: no subdirectory, no file extension
+  # (this also covers the C-wrapper headers like <cstdint>, <cstdio>,
+  # which the style guide treats as C++ headers, not C headers).
+  - Regex: '^<[a-z_]+>$'
+    Priority: 2
+  # Other libraries' headers, e.g. <yaml-cpp/yaml.h>, <inja/inja.hpp>,
+  # <CLI/CLI.hpp>.
+  - Regex: '^<.*[/.].*>'
+    Priority: 3
+  # This project's own headers.
+  - Regex: '^".*"$'
+    Priority: 4

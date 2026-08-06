@@ -1,11 +1,11 @@
 #include "renderer/typst_renderer.h"
 
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
-
 #include <filesystem>
 #include <fstream>
 #include <vector>
+
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 std::vector<questforge::model::Question> MakeQuestions() {
   return {

@@ -1,9 +1,9 @@
 #include "cli/arg_parser.h"
 
-#include <gtest/gtest.h>
-
 #include <string>
 #include <vector>
+
+#include <gtest/gtest.h>
 
 questforge::cli::CliOptions ParseArgs(std::vector<std::string> args) {
   std::vector<char*> argv;

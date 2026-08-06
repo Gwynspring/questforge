@@ -1,8 +1,8 @@
 #include "generator/test_generator.h"
 
-#include <gtest/gtest.h>
-
 #include <algorithm>
+
+#include <gtest/gtest.h>
 
 std::vector<questforge::model::Question> MakeQuestions() {
   return {

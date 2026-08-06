@@ -2,10 +2,11 @@
 
 #include <format>
 #include <fstream>
-#include <inja/inja.hpp>
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <inja/inja.hpp>
 
 namespace questforge::renderer {
 
