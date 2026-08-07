@@ -10,6 +10,14 @@
 
 namespace questforge::renderer {
 
+TypstRenderer::TypstRenderer(std::filesystem::path template_path,
+                             std::unique_ptr<platform::ProcessRunner> runner)
+    : template_path_(std::move(template_path)), runner_(std::move(runner)) {}
+
+TypstRenderer::TypstRenderer(std::filesystem::path template_path)
+    : TypstRenderer(std::move(template_path),
+                    std::make_unique<platform::PosixProcessRunner>()) {}
+
 void TypstRenderer::Render(
     const std::vector<questforge::model::Question>& questions,
     const std::filesystem::path& output_path) {
