@@ -27,47 +27,24 @@ git clone https://codeberg.org/Gwynspring/questforge.git
 
 2. Install dependencies:
 
-**Prerequisites:** CMake ≥ 3.25, Ninja, a C++20 compiler, and the following libraries: yaml-cpp, inja, CLI11, spdlog, GoogleTest. Install them via your package manager of choice (apt, brew, vcpkg, Nix, ...).
+**Prerequisites:** CMake ≥ 3.25, Ninja, a C++20 compiler, and internet access for the first `cmake --preset` run. That's it — yaml-cpp, inja, CLI11, spdlog, and GoogleTest are fetched and built from source automatically via CMake's `FetchContent`, pinned to fixed versions in `CMakeLists.txt`. There's nothing to install via a package manager for them.
 
 ### Fedora
 
-All dependencies are available directly via `dnf`:
-
 ```bash
-sudo dnf install -y cmake ninja-build gcc-c++ \
-  yaml-cpp-devel inja-devel cli11-devel spdlog-devel \
-  gtest-devel gmock-devel
+sudo dnf install -y cmake ninja-build gcc-c++
 ```
 
 ### Debian / Ubuntu
 
 ```bash
-sudo apt install -y cmake ninja-build g++ \
-  libyaml-cpp-dev libcli11-dev libspdlog-dev \
-  libgtest-dev libgmock-dev
+sudo apt install -y cmake ninja-build g++
 ```
-
-`inja` is not packaged on current Debian stable or Ubuntu LTS releases (it
-only landed in Debian trixie+1/sid and Ubuntu 26.04+ as `inja-dev`). On
-older releases, install it manually (header-only, just drop
-`include/inja` somewhere on your include path) or vendor it via CMake's
-`FetchContent`.
 
 ### Arch Linux
 
-All dependencies are in the official `extra` repo:
-
 ```bash
-sudo pacman -S --needed cmake ninja gcc \
-  yaml-cpp spdlog gtest cli11 inja
-```
-
-### NixOS
-
-For an ad-hoc shell with all required dependencies:
-
-```bash
-nix-shell -p cmake ninja gcc yaml-cpp inja cli11 spdlog gtest
+sudo pacman -S --needed cmake ninja gcc
 ```
 
 ### All distros
@@ -150,5 +127,5 @@ This project is developed with AI assistance (Claude Code) used as a learning ai
 MIT — see [LICENSE](LICENSE).
 
 ## Third-party notices
-questforge links against yaml-cpp, inja, CLI11, and spdlog (all MIT/BSD-3-Clause) and shells out to the separately-installed [Typst](https://typst.app) CLI. License texts for everything bundled into the compiled binary are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+questforge links against yaml-cpp, inja (which vendors nlohmann/json), CLI11, and spdlog (all MIT/BSD-3-Clause) and shells out to the separately-installed [Typst](https://typst.app) CLI. License texts for everything bundled into the compiled binary are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 

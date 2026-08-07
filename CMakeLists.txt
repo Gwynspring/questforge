@@ -6,10 +6,41 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-find_package(yaml-cpp CONFIG REQUIRED)
-find_package(inja CONFIG REQUIRED)
-find_package(CLI11 CONFIG REQUIRED)
-find_package(spdlog CONFIG REQUIRED)
+include(FetchContent)
+
+# Standalone tools/tests of fetched dependencies are irrelevant to us and
+# only cost build time, so they're disabled before declaring each one.
+set(YAML_CPP_BUILD_TOOLS OFF CACHE BOOL "" FORCE)
+FetchContent_Declare(
+  yaml-cpp
+  GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
+  GIT_TAG        yaml-cpp-0.9.0
+  GIT_SHALLOW    TRUE
+)
+
+set(INJA_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+FetchContent_Declare(
+  inja
+  GIT_REPOSITORY https://github.com/pantor/inja.git
+  GIT_TAG        v3.5.0
+  GIT_SHALLOW    TRUE
+)
+
+FetchContent_Declare(
+  CLI11
+  GIT_REPOSITORY https://github.com/CLIUtils/CLI11.git
+  GIT_TAG        v2.7.2
+  GIT_SHALLOW    TRUE
+)
+
+FetchContent_Declare(
+  spdlog
+  GIT_REPOSITORY https://github.com/gabime/spdlog.git
+  GIT_TAG        v1.17.0
+  GIT_SHALLOW    TRUE
+)
+
+FetchContent_MakeAvailable(yaml-cpp inja CLI11 spdlog)
 
 add_library(questforge_lib STATIC
   src/cli/arg_parser.cc
