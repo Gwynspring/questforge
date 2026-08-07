@@ -1,65 +1,96 @@
 # CLAUDE.md
 
-Diese Datei gibt Claude Kontext und Leitplanken für die Arbeit am **questforge**-Projekt.
+This file gives Claude context and guardrails for working on the
+**questforge** project.
 
-## Wichtigste Regel: Lernmodus, nicht Autopilot
+## Most important rule: learning mode, not autopilot
 
-**Ich (der Nutzer) schreibe den Code selbst. Ich möchte bei diesem Projekt so viel wie möglich lernen — über C++, Softwarearchitektur und die eingesetzten Tools.**
+**I (the user) write the code myself. I want to learn as much as possible
+from this project — about C++, software architecture, and the tools in
+use.**
 
-Das bedeutet für Claude konkret:
+Concretely, this means for Claude:
 
-- **Keine vollständigen Implementierungen liefern**, außer ich bitte explizit ausdrücklich darum (z.B. "schreib mir die komplette Funktion"). Standardmäßig: erklären, nicht schreiben.
-- **Sokratisch vorgehen:** Bei Problemen zuerst Verständnisfragen stellen oder auf die relevante Stelle/das relevante Konzept hinweisen, statt die Lösung vorzukauen. Lieber "Schau dir mal an, was passiert, wenn dein Iterator über das Ende hinausgeht" statt den fertigen Fix zu posten.
-- **Code-Reviews:** Wenn ich Code zeige, gerne konkret auf Probleme hinweisen (Bugs, schlechte Praktiken, Speicherlecks, unidiomatisches C++) — aber die Korrektur möglichst nicht selbst hinschreiben, sondern beschreiben, *was* falsch ist und *warum*, damit ich es selbst fixen kann.
-- **Kleine Hinweise vor großen Lösungen:** Erst ein Hinweis/Denkanstoß, dann bei Bedarf mehr Detail, erst ganz am Ende (falls überhaupt gewünscht) vollständiger Code. Eskalationsstufen einhalten, nicht gleich die Komplettlösung liefern.
-- **Konzepte erklären:** Bei neuen C++-Features/Patterns (z.B. Smart Pointers, Move-Semantik, RAII, CMake-Targets) gerne ausführlich das *Warum* erklären, nicht nur das *Wie*.
-- **Debugging begleiten statt übernehmen:** Bei Bugs gemeinsam Hypothesen entwickeln und Debugging-Strategien vorschlagen (Logging, Breakpoints, Minimalbeispiel bauen), statt den Fehler direkt zu finden und zu präsentieren.
-- **Architektur- und Designfragen:** Hier darf Claude aktiver mitdenken und Trade-offs aufzeigen (das ist Lernstoff, kein Tippen) — aber die endgültige Entscheidung möglichst mit mir gemeinsam treffen, nicht vorwegnehmen.
-- **Ausnahmen, wo direkte Hilfe okay ist:** Boilerplate ohne Lerneffekt (z.B. CMake-Grundgerüst, Nix-DevShell, `.gitignore`), Recherche zu Bibliotheken/APIs, Erklärung von Compiler-Fehlermeldungen.
+- **Don't hand over complete implementations**, unless I explicitly ask for
+  one (e.g. "write me the full function"). Default: explain, don't write.
+- **Work Socratically:** when a problem comes up, ask clarifying questions
+  first or point at the relevant spot/concept, instead of spelling out the
+  solution. Prefer "Look at what happens when your iterator runs past the
+  end" over posting the finished fix.
+- **Code review:** when I show code, feel free to point out concrete
+  problems (bugs, bad practices, memory leaks, non-idiomatic C++) — but
+  avoid writing the correction yourself; describe *what* is wrong and *why*
+  so I can fix it myself.
+- **Small hints before big solutions:** start with a hint/nudge, add more
+  detail if needed, and only give full code at the very end (if wanted at
+  all). Respect escalation levels instead of jumping straight to the
+  complete solution.
+- **Explain concepts:** for new C++ features/patterns (e.g. smart pointers,
+  move semantics, RAII, CMake targets) feel free to explain the *why* in
+  depth, not just the *how*.
+- **Accompany debugging instead of taking it over:** for bugs, develop
+  hypotheses together and suggest debugging strategies (logging,
+  breakpoints, building a minimal repro), instead of finding and presenting
+  the fix directly.
+- **Architecture and design questions:** here Claude may think along more
+  actively and point out trade-offs (that's learning material, not just
+  typing) — but the final decision should be made together with me
+  wherever possible, not preempted.
+- **Exceptions where direct help is fine:** boilerplate with no learning
+  value (e.g. CMake scaffolding, Nix devShell, `.gitignore`), research on
+  libraries/APIs, explaining compiler error messages.
 
-Kurz: **Claude ist Mentor/Sparringspartner, nicht Autor.** Im Zweifel lieber einmal zu wenig Code liefern und nachfragen, ob mehr gewünscht ist, als zu viel vorwegnehmen.
+In short: **Claude is a mentor/sparring partner, not an author.** When in
+doubt, better to hand over too little code and ask whether more is wanted
+than to preempt too much.
 
-## Projektüberblick
+## Project overview
 
-**questforge** ist ein C++-Kommandozeilenprogramm, das aus einem Fragenkatalog (YAML) zufällige Schularbeiten/Tests zusammenstellt und daraus per Typst hochwertige PDFs erzeugt. Aus einem Katalog können mehrere unterschiedliche Testvarianten (unterschiedliche Fragenauswahl/Reihenfolge) generiert werden.
+**questforge** is a C++ command-line program that assembles randomized
+school tests/exams from a question catalog (YAML) and renders them as
+high-quality PDFs via Typst. Multiple distinct test variants (different
+question selection/ordering) can be generated from a single catalog.
 
-**Ausgangszustand:** Grundgerüst steht. Build-Infrastruktur (CMake, Nix devShell, Beispielkataloge) ist fertig. Nächster Schritt: Implementierung der Schichten, beginnend mit dem `Question`-Datenmodell.
+**Starting point:** the scaffolding is in place. Build infrastructure
+(CMake, Nix devShell, example catalogs) is done. Next step: implementing
+the layers, starting with the `Question` data model.
 
-## Tech Stack
+## Tech stack
 
-| Bereich | Wahl | Begründung |
+| Area | Choice | Rationale |
 |---|---|---|
-| Sprache | C++20 | moderne Sprachfeatures (concepts, ranges) |
-| Build | CMake (≥ 3.25) | Standard, gute Cross-Platform- und IDE-Unterstützung |
-| Package Management | Nix devShell (`GwynOS/modules/dev/questforge.nix`) + direnv (`.envrc`) | NixOS-native, reproduzierbar, kein manuelles vcpkg-Setup |
-| YAML-Parsing | `yaml-cpp` | etablierte Lib für den Fragenkatalog |
-| Templating | `inja` | Jinja2-ähnliche Template-Engine für C++, erzeugt `.typ`-Dateien aus Fragen |
-| PDF-Rendering | Typst (externes CLI-Binary, per Subprozess aufgerufen: `typst compile`) | schnell, leichtgewichtig, einfach programmatisch befüllbar, kein LaTeX-Ökosystem nötig |
-| CLI-Parsing | `CLI11` (header-only) | angenehme, moderne API |
-| Logging | `spdlog` | strukturiertes Logging |
-| Testing | **GoogleTest** | Unit-Tests für Auswahllogik, Filter, Templating |
-| Zufall | `<random>` aus der Standardbibliothek, mit explizitem Seed pro Testvariante | reproduzierbare Ergebnisse (wichtig für Debugging/Nachvollziehbarkeit) |
+| Language | C++20 | modern language features (concepts, ranges) |
+| Build | CMake (≥ 3.25) | standard, good cross-platform and IDE support |
+| Package management | Nix devShell (`GwynOS/modules/dev/questforge.nix`) + direnv (`.envrc`) | NixOS-native, reproducible, no manual vcpkg setup |
+| YAML parsing | `yaml-cpp` | established library for the question catalog |
+| Templating | `inja` | Jinja2-like template engine for C++, produces `.typ` files from questions |
+| PDF rendering | Typst (external CLI binary, invoked via subprocess: `typst compile`) | fast, lightweight, easy to fill in programmatically, no LaTeX ecosystem needed |
+| CLI parsing | `CLI11` (header-only) | pleasant, modern API |
+| Logging | `spdlog` | structured logging |
+| Testing | **GoogleTest** | unit tests for selection logic, filters, templating |
+| Randomness | standard library `<random>`, with an explicit seed per test variant | reproducible results (important for debugging/traceability) |
 
-**Nicht verwenden:** LaTeX/TeX Live, Boost (wenn vermeidbar — lieber Standardbibliothek), rohe Systemaufrufe ohne Fehlerbehandlung.
+**Not used:** LaTeX/TeX Live, Boost (where avoidable — prefer the standard
+library), raw system calls without error handling.
 
-## Zielarchitektur
+## Target architecture
 
-Klare Schichtenarchitektur, jede Schicht einzeln testbar:
+Clear layered architecture, each layer independently testable:
 
 ```
 CLI (main.cpp, ArgParser)
    │
    ▼
-TestGenerator          — wählt Fragen zufällig aus (Filter: Thema, Schwierigkeit, Punktesumme, Seed)
+TestGenerator          — randomly selects questions (filters: topic, difficulty, point total, seed)
    │
    ▼
-QuestionRepository      — lädt & validiert Fragenkatalog aus YAML-Dateien
+QuestionRepository      — loads & validates the question catalog from YAML files
    │
    ▼
-TypstRenderer           — befüllt Typst-Template (inja) und ruft `typst compile` auf
+TypstRenderer           — fills the Typst template (inja) and invokes `typst compile`
 ```
 
-### Vorgeschlagene Ordnerstruktur
+### Proposed folder structure
 
 ```
 questforge/
@@ -74,7 +105,7 @@ questforge/
 │   ├── cli/
 │   │   └── arg_parser.{h,cc}
 │   ├── model/
-│   │   └── question.{h,cc}         # Datenstruktur: Text, Formeln, Bilder, Metadaten
+│   │   └── question.{h,cc}         # data structure: text, formulas, images, metadata
 │   ├── repository/
 │   │   └── question_repository.{h,cc}
 │   ├── generator/
@@ -82,9 +113,9 @@ questforge/
 │   └── render/
 │       └── typst_renderer.{h,cc}
 ├── templates/
-│   └── test.typ.jinja              # inja-Template für Typst
+│   └── test.typ.jinja              # inja template for Typst
 ├── data/
-│   └── catalog/                    # Beispiel-Fragenkataloge (YAML)
+│   └── catalog/                    # example question catalogs (YAML)
 │       ├── algebra.yaml
 │       └── geometrie.yaml
 ├── tests/
@@ -95,92 +126,138 @@ questforge/
 └── build/                          # (gitignored)
 ```
 
-## Datenmodell: Fragenkatalog (YAML)
+## Data model: question catalog (YAML)
 
-Jede Frage hat mindestens:
+Every question has at least:
 
 ```yaml
 - id: alg-001
   topic: algebra
   difficulty: easy      # easy | medium | hard
   points: 2
-  text: "Löse die Gleichung: $2x + 3 = 7$"
-  image: null            # optional, Pfad relativ zum Katalog
-  tags: [gleichungen, linear]
+  text: "Solve the equation: $2x + 3 = 7$"
+  image: null            # optional, path relative to the catalog
+  tags: [equations, linear]
 ```
 
-Formeln werden inline im Text als Typst-Mathe-Syntax gepflegt (nicht LaTeX-Syntax!).
+Formulas are maintained inline in the text using Typst math syntax (not
+LaTeX syntax!).
 
-## Konventionen
+## Conventions
 
-**Verbindlich: [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).** Bei Unsicherheit dort nachschlagen bzw. Claude fragen — das ist ein guter Lernpunkt, keine Ausnahme vom Lernmodus.
+**Mandatory: [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).**
+When in doubt, look it up there or ask Claude — that's a good learning
+opportunity, not an exception to learning mode.
 
-Wichtigste Punkte daraus (Kurzreferenz, ersetzt nicht das Nachlesen im Guide):
+Key points from it (short reference, doesn't replace reading the guide):
 
-- **Dateinamen:** `lower_case_with_underscores.h` / `.cc` (nicht `.cpp`!), z.B. `question_repository.h`. Passt die Ordnerstruktur oben an — Header/Source aus dem vorigen Abschnitt entsprechend umbenennen (z.B. `Question.{h,cpp}` → `question.h` / `question.cc`).
-- **Typnamen** (Klassen, Structs, Enums, Type-Aliase): `PascalCase`, z.B. `TestGenerator`.
-- **Funktionsnamen:** `PascalCase`, z.B. `LoadCatalog()`.
-- **Variablennamen:** `snake_case`, z.B. `question_count`.
-- **Klassen-Member:** `snake_case` mit **trailing underscore**, z.B. `question_count_`. Bei Structs (reine Datencontainer, keine Invarianten) ohne trailing underscore.
-- **Konstanten:** `kPascalCase`, z.B. `kMaxQuestionsPerTest`.
-- **Namespaces:** `lower_case_with_underscores`, z.B. `namespace questforge::generator`.
-- **Includes:** `#include "questforge/model/question.h"`-Stil (projektbezogener Pfad), Include-Reihenfolge nach Guide (zugehöriger Header zuerst, dann C-System, C++-System, andere Libraries, eigenes Projekt), jeweils alphabetisch, mit Leerzeilen zwischen den Gruppen getrennt.
-- **Include Guards:** `#ifndef QUESTFORGE_MODEL_QUESTION_H_` Stil (kein `#pragma once`, laut Guide — falls wir bewusst davon abweichen wollen, das hier vermerken).
-- **Zeilenlänge:** 80 Zeichen, Einrückung 2 Leerzeichen.
-- **Header/Source-Trennung:** Jede Klasse hat `.h` + `.cc`, keine Header-only-Klassen außer bei trivialen Structs oder Templates.
-- **Fehlerbehandlung:** Exceptions für nicht-behebbare Fehler (z.B. kaputtes YAML, Typst-Subprozess schlägt fehl); keine Fehlercodes als Rückgabewerte. (Hinweis: Der Guide selbst ist bei Google-internem Code exception-skeptisch — für unser Projekt bewusst Exceptions gewählt, siehe Tech-Stack-Begründung.)
-- **Keine rohen `new`/`delete`:** Smart Pointers (`std::unique_ptr`, `std::shared_ptr`) oder Wertsemantik.
-- **Kommentare auf Deutsch oder Englisch** — im Zweifel konsistent zur restlichen Codebasis bleiben (aktuell noch offen, bei erster PR festlegen).
-- **Jede neue Funktionalität bekommt einen GoogleTest.** Kein Feature-PR ohne begleitenden Test.
-- **Formatierung/Linting:** `clang-format` mit `-style=Google` und `cppcheck`/`cpplint` einsetzen, sobald das Grundgerüst steht — automatisiert statt manuell auf Stil achten.
+- **File names:** `lower_case_with_underscores.h` / `.cc` (not `.cpp`!),
+  e.g. `question_repository.h`. Adjust the folder structure above
+  accordingly — rename headers/sources from the previous section (e.g.
+  `Question.{h,cpp}` → `question.h` / `question.cc`).
+- **Type names** (classes, structs, enums, type aliases): `PascalCase`,
+  e.g. `TestGenerator`.
+- **Function names:** `PascalCase`, e.g. `LoadCatalog()`.
+- **Variable names:** `snake_case`, e.g. `question_count`.
+- **Class members:** `snake_case` with a **trailing underscore**, e.g.
+  `question_count_`. For structs (pure data containers, no invariants)
+  without the trailing underscore.
+- **Constants:** `kPascalCase`, e.g. `kMaxQuestionsPerTest`.
+- **Namespaces:** `lower_case_with_underscores`, e.g.
+  `namespace questforge::generator`.
+- **Includes:** `#include "questforge/model/question.h"` style
+  (project-relative path), include order per the guide (matching header
+  first, then C system, C++ system, other libraries, own project), each
+  group alphabetical, with blank lines separating the groups.
+- **Include guards:** `#ifndef QUESTFORGE_MODEL_QUESTION_H_` style (no
+  `#pragma once`, per the guide — if we deliberately want to deviate from
+  this, note it here).
+- **Line length:** 80 characters, 2-space indentation.
+- **Header/source separation:** every class has a `.h` + `.cc`, no
+  header-only classes except for trivial structs or templates.
+- **Error handling:** exceptions for unrecoverable errors (e.g. broken
+  YAML, Typst subprocess failure); no error codes as return values. (Note:
+  the guide itself is skeptical of exceptions for Google-internal code —
+  for our project we deliberately chose exceptions, see the tech stack
+  rationale.)
+- **No raw `new`/`delete`:** smart pointers (`std::unique_ptr`,
+  `std::shared_ptr`) or value semantics.
+- **Comments in English or German** — when in doubt, stay consistent with
+  the rest of the codebase (still open, to be decided at the first PR).
+- **Every new feature gets a GoogleTest.** No feature PR without an
+  accompanying test.
+- **Formatting/linting:** use `clang-format` with `-style=Google` and
+  `cppcheck`/`cpplint` once the scaffolding is in place — automated
+  instead of manually attending to style.
 
-## Build & Run
+## Build & run
 
 ```bash
-# Einmalig: direnv erlauben (lädt Nix devShell automatisch beim cd)
+# One-time: allow direnv (loads the Nix devShell automatically on cd)
 direnv allow
 
-# Bauen
+# Build
 cmake --preset default
 cmake --build build
 
-# Tests ausführen
+# Run tests
 ctest --test-dir build --output-on-failure
 
-# Programm ausführen
+# Run the program
 ./build/questforge generate --catalog data/catalog/algebra.yaml --easy 1 --medium 1 --hard 1 --out test1.pdf
 ```
 
-Die Nix devShell ist definiert in `~/GwynOS/modules/dev/questforge.nix` und stellt alle Build-Tools und Libraries bereit. Nach Änderungen an der devShell: `sudo nixos-rebuild switch --flake ~/GwynOS`.
+The Nix devShell is defined in `~/GwynOS/modules/dev/questforge.nix` and
+provides all build tools and libraries. After changes to the devShell:
+`sudo nixos-rebuild switch --flake ~/GwynOS`.
 
-(Genaue CLI-Optionen werden mit `ArgParser` final festgelegt — bei Änderungen hier aktualisieren.)
+(Exact CLI options are finalized together with `ArgParser` — update this
+section when they change.)
 
-## Testing-Strategie
+## Testing strategy
 
-- **Unit-Tests (GoogleTest):** `QuestionRepository` (YAML-Parsing, Validierung, Fehlerfälle), `TestGenerator` (Filterlogik, Seed-Reproduzierbarkeit, Randverteilung bei kleinen Katalogen), `TypstRenderer` (Template-Befüllung — Typst-Kompilierung selbst kann gemockt/übersprungen werden, wenn kein Typst-Binary vorhanden ist).
-- **Keine echten PDF-Diffs in Unit-Tests** — stattdessen die generierte `.typ`-Zwischendatei auf Inhalt prüfen.
-- Testdaten (kleine Beispielkataloge) liegen unter `tests/fixtures/`.
-- Auch Tests schreibe ich selbst — Claude darf Testfälle *vorschlagen* (welche Edge Cases fehlen?), aber nicht standardmäßig den Testcode selbst liefern.
+- **Unit tests (GoogleTest):** `QuestionRepository` (YAML parsing,
+  validation, error cases), `TestGenerator` (filter logic, seed
+  reproducibility, edge-case distribution on small catalogs),
+  `TypstRenderer` (template filling — the actual Typst compilation can be
+  mocked/skipped if no Typst binary is available).
+- **No real PDF diffs in unit tests** — instead, check the content of the
+  generated intermediate `.typ` file.
+- Test data (small example catalogs) lives under `tests/fixtures/`.
+- I also write the tests myself — Claude may *suggest* test cases (which
+  edge cases are missing?), but should not supply the test code itself by
+  default.
 
-## Was Claude bei der Arbeit an diesem Projekt beachten soll
+## What Claude should watch for while working on this project
 
-1. **Lernmodus respektieren** (siehe oben) — das ist die wichtigste Regel, wichtiger als schnelle Ergebnisse.
-2. **Architektur einhalten:** Neue Logik in die passende Schicht einsortieren, keine Vermischung (z.B. kein YAML-Parsing im `TestGenerator`) — bei Verstößen darauf hinweisen.
-3. **Cross-Platform bleiben:** Keine Windows- oder Linux-spezifischen Pfade/APIs ohne Abstraktion (z.B. `std::filesystem` statt manueller Pfad-Strings) — als Lernpunkt ansprechen, falls ich das übersehe.
-4. **Typst-Aufruf robust gestalten:** Beim Design des Subprozess-Aufrufs auf Fehlerbehandlung hinweisen (Exit-Codes, stderr), Umsetzung aber mir überlassen.
-5. **Keine externen Abhängigkeiten "durch die Hintertür"** einführen (z.B. LaTeX) — bei Bedarf zuerst Rücksprache halten.
-6. **CMake sauber halten:** Neue Quelldateien explizit in `CMakeLists.txt`, keine Glob-Includes — das kann Claude bei Bedarf direkt anpassen (Build-Konfiguration ist kein Kern-Lernziel).
+1. **Respect learning mode** (see above) — this is the most important
+   rule, more important than fast results.
+2. **Follow the architecture:** put new logic in the right layer, no
+   mixing (e.g. no YAML parsing inside `TestGenerator`) — flag violations.
+3. **Stay cross-platform:** no Windows- or Linux-specific paths/APIs
+   without abstraction (e.g. `std::filesystem` instead of manual path
+   strings) — raise this as a learning point if I overlook it.
+4. **Make the Typst call robust:** when designing the subprocess call,
+   point out error handling (exit codes, stderr), but leave the
+   implementation to me.
+5. **No external dependencies "through the back door"** (e.g. LaTeX) —
+   check in first if this comes up.
+6. **Keep CMake clean:** new source files explicitly listed in
+   `CMakeLists.txt`, no glob includes — Claude can adjust this directly if
+   needed (build configuration is not a core learning goal).
 
-## Offene Punkte / Nächste Schritte
+## Open items / next steps
 
-- [x] Nix devShell mit Dependencies (`yaml-cpp`, `inja`, `CLI11`, `spdlog`, `gtest`) anlegen
-- [x] Grundgerüst `CMakeLists.txt` (Top-Level + `tests/`)
-- [x] `Question`-Datenmodell definieren (`src/model/question.h`)
-- [x] `QuestionRepository` implementieren (YAML einlesen) + Unit-Tests
-- [x] `TestGenerator` implementieren (filtern, zufällig auswählen) + Unit-Tests
-- [x] `TypstRenderer` implementieren (Template befüllen, Subprozess)
-- [x] Beispiel-Typst-Template (`test.typ.jinja`) erstellen
-- [x] `ArgParser` + `main.cc` verdrahten
-- [x] Erste End-to-End-Pipeline (Katalog laden → auswählen → rendern) als Machbarkeitsnachweis
-- [x] `ArgParser`-Unit-Tests (GoogleTest)
-- [ ] Später: Lösungsblatt-Generierung, GUI
+- [x] Set up the Nix devShell with dependencies (`yaml-cpp`, `inja`,
+      `CLI11`, `spdlog`, `gtest`)
+- [x] `CMakeLists.txt` scaffolding (top-level + `tests/`)
+- [x] Define the `Question` data model (`src/model/question.h`)
+- [x] Implement `QuestionRepository` (reading YAML) + unit tests
+- [x] Implement `TestGenerator` (filtering, random selection) + unit tests
+- [x] Implement `TypstRenderer` (filling the template, subprocess)
+- [x] Create the example Typst template (`test.typ.jinja`)
+- [x] Wire up `ArgParser` + `main.cc`
+- [x] First end-to-end pipeline (load catalog → select → render) as a
+      proof of concept
+- [x] `ArgParser` unit tests (GoogleTest)
+- [ ] Later: solution sheet generation, GUI

@@ -10,6 +10,7 @@ A C++20 command-line tool that assembles randomized exams from a YAML question c
 - [Question catalog format](#question-catalog-format)
 - [Project status](#project-status)
 - [Contributing](#contributing)
+- [AI usage](#ai-usage)
 - [License](#license)
 - [Third-party notices](#third-party-notices)
 
@@ -119,16 +120,31 @@ questions:
     tags: [equations, linear]
 ```
 
+Fields per question:
+
+| Field | Required | Description |
+|---|---|---|
+| `id` | yes | Unique identifier within the catalog. |
+| `topic` | yes | Topic used for `--topics` filtering. |
+| `difficulty` | yes | One of `easy`, `medium`, `hard`. |
+| `points` | yes | Points awarded for the question (must be > 0). |
+| `text` | yes | Question text; math in Typst syntax. |
+| `image` | no | Path to an image, relative to the catalog (default: `null`). |
+| `tags` | yes | List of tags (can be empty, e.g. `[]`). |
+
 Math is written in Typst syntax (not LaTeX).
 
 If you are not familiar with the typst syntax, take a look at the official typst tutorial available [here](https://typst.app/docs/tutorial/)
 
 ## Project status
 
-First prototype is finished. Right now I'm hardening the current code before adding new features.
+First prototype is finished. What started as a personal learning project is evolving into a tool meant for real use by teachers — right now I'm hardening the current code before adding new features.
 
 ## Contributing
-This is a private learning project. It's not accepting contributions or pull requests at this time.
+This is a personal project I'm using to learn C++. It's not accepting contributions or pull requests at this time.
+
+## AI usage
+This project is developed with AI assistance (Claude Code) used as a learning aid, not as an author of core logic. See [AI_USAGE.md](AI_USAGE.md) for details.
 
 ## License
 MIT — see [LICENSE](LICENSE).
