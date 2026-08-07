@@ -1,5 +1,7 @@
 # questforge
 
+[![Build](https://github.com/Gwynspring/questforge/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/Gwynspring/questforge/actions/workflows/build.yml)
+
 A C++20 command-line tool that assembles randomized exams from a YAML question catalog and renders them as PDFs via [Typst](https://typst.app).
 
 ## Table of Contents
