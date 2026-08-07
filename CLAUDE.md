@@ -148,7 +148,7 @@ cmake --build build
 ctest --test-dir build --output-on-failure
 
 # Programm ausführen
-./build/questforge generate --catalog data/catalog --topics algebra,geometrie --count 20 --out test1.pdf
+./build/questforge generate --catalog data/catalog/algebra.yaml --easy 1 --medium 1 --hard 1 --out test1.pdf
 ```
 
 Die Nix devShell ist definiert in `~/GwynOS/modules/dev/questforge.nix` und stellt alle Build-Tools und Libraries bereit. Nach Änderungen an der devShell: `sudo nixos-rebuild switch --flake ~/GwynOS`.

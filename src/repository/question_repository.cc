@@ -100,7 +100,13 @@ std::vector<model::Question> QuestionRepository::LoadCatalog(
 
       questions.push_back(q);
     }
-  } catch (const YAML::Exception& e) {
+  }
+  // Only structural parse errors (malformed YAML) are caught and wrapped
+  // here. std::invalid_argument (semantic validation failures, e.g. an
+  // empty question id) is intentionally left uncaught so it propagates
+  // unwrapped, letting callers tell a broken catalog file apart from a
+  // well-formed but invalid question.
+  catch (const YAML::Exception& e) {
     throw std::runtime_error("Failed to load catalog: " +
                              std::string(e.what()));
   }
