@@ -30,6 +30,11 @@ void ValidateQuestion(const model::Question& q) {
                     "greater than 0. Points declared in question {}: {}",
                     q.id, q.points));
   }
+
+  if (q.topic.empty()) {
+    throw std::invalid_argument(
+        "invalid declaration of question topic. Topic must not be empty");
+  }
 }
 
 void ValidateQuestionNode(const YAML::Node& node) {

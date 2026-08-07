@@ -106,3 +106,9 @@ TEST_F(QuestionRepositoryTest, ThrowsRuntimeErrorForMissingKey) {
       testing::ThrowsMessage<std::runtime_error>(
           testing::HasSubstr("missing the required 'questions' key")));
 }
+
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForEmptyTopic) {
+  EXPECT_THAT([this] { repo_.LoadCatalog("tests/fixtures/empty_topic.yaml"); },
+              testing::ThrowsMessage<std::invalid_argument>(
+                  testing::HasSubstr("invalid declaration of question topic")));
+}
