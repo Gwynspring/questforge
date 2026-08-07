@@ -38,6 +38,11 @@ void TypstRenderer::Render(
   inja::Environment env;
 
   auto typ_path = output_path;
+  if (typ_path.extension() != ".pdf") {
+    throw std::runtime_error(std::format(
+        "Invalid output file extension. Extension must be '.pdf' not {}",
+        typ_path.extension().string()));
+  }
   typ_path.replace_extension(".typ");
   std::ofstream output_file(typ_path);
 

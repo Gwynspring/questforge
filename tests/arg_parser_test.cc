@@ -40,7 +40,7 @@ TEST(ArgParserTest, ThrowErrorForMissingCatalogOpt) {
 
 TEST(ArgParserTest, DefaultOptsSetCorrectly) {
   questforge::cli::CliOptions opts =
-      ParseArgs({"questforge", "generate", "--catalog", "x", "--out", "y"});
+      ParseArgs({"questforge", "generate", "--catalog", "x", "--out", "y.pdf"});
 
   EXPECT_FALSE(opts.seed.has_value());
   EXPECT_FALSE(opts.topics.has_value());
