@@ -18,8 +18,11 @@ class ProcessRunner {
 
 class PosixProcessRunner : public ProcessRunner {
  public:
-  // POSIX-only: a Windows port would need a CreateProcess-based
-  // implementation behind the same signature.
+  void Run(const std::vector<std::string>& args) const override;
+};
+
+class WindowsProcessRunner : public ProcessRunner {
+ public:
   void Run(const std::vector<std::string>& args) const override;
 };
 

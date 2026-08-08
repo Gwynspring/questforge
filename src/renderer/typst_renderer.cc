@@ -14,9 +14,16 @@ TypstRenderer::TypstRenderer(std::filesystem::path template_path,
                              std::unique_ptr<platform::ProcessRunner> runner)
     : template_path_(std::move(template_path)), runner_(std::move(runner)) {}
 
+#ifdef _WIN32
+TypstRenderer::TypstRenderer(std::filesystem::path template_path)
+    : TypstRenderer(std::move(template_path),
+                    std::make_unique<platform::WindowsProcessRunner>()) {}
+#else
+
 TypstRenderer::TypstRenderer(std::filesystem::path template_path)
     : TypstRenderer(std::move(template_path),
                     std::make_unique<platform::PosixProcessRunner>()) {}
+#endif  // _WIN32
 
 void TypstRenderer::Render(
     const std::vector<questforge::model::Question>& questions,
