@@ -1,7 +1,7 @@
 # AI usage in this project
 
-This project is developed with the help of Claude Code (Anthropic). This
-document is a transparent, short summary of how AI is and isn't used here.
+This project is developed with the help of opencode. This document is a
+transparent, short summary of how AI is and isn't used here.
 
 ## What AI is used for
 
@@ -30,6 +30,8 @@ author.
 
 ## How this is enforced
 
-Claude Code reads project-specific instructions from [`CLAUDE.md`](CLAUDE.md)
+opencode reads project-specific instructions from [`AGENTS.md`](AGENTS.md)
 in this repository on every session, which encodes the rules above in
-detail.
+detail. The dedicated `mentor` and `code-reviewer` agents in
+`.opencode/agents/` reinforce the same rules (no unrequested code, no
+unrequested edits).

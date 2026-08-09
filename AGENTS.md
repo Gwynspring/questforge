@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file gives Claude context and guardrails for working on the
+This file gives opencode context and guardrails for working on the
 **questforge** project.
 
 ## Most important rule: learning mode, not autopilot
@@ -9,7 +9,7 @@ This file gives Claude context and guardrails for working on the
 from this project — about C++, software architecture, and the tools in
 use.**
 
-Concretely, this means for Claude:
+Concretely, this means for opencode:
 
 - **Don't hand over complete implementations**, unless I explicitly ask for
   one (e.g. "write me the full function"). Default: explain, don't write.
@@ -32,7 +32,7 @@ Concretely, this means for Claude:
   hypotheses together and suggest debugging strategies (logging,
   breakpoints, building a minimal repro), instead of finding and presenting
   the fix directly.
-- **Architecture and design questions:** here Claude may think along more
+- **Architecture and design questions:** here opencode may think along more
   actively and point out trade-offs (that's learning material, not just
   typing) — but the final decision should be made together with me
   wherever possible, not preempted.
@@ -40,7 +40,7 @@ Concretely, this means for Claude:
   value (e.g. CMake scaffolding, Nix devShell, `.gitignore`), research on
   libraries/APIs, explaining compiler error messages.
 
-In short: **Claude is a mentor/sparring partner, not an author.** When in
+In short: **opencode is a mentor/sparring partner, not an author.** When in
 doubt, better to hand over too little code and ask whether more is wanted
 than to preempt too much.
 
@@ -98,7 +98,7 @@ questforge/
 ├── CMakePresets.json
 ├── .clang-format
 ├── .envrc
-├── CLAUDE.md
+├── AGENTS.md
 ├── README.md
 ├── src/
 │   ├── main.cc
@@ -146,7 +146,7 @@ LaTeX syntax!).
 ## Conventions
 
 **Mandatory: [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).**
-When in doubt, look it up there or ask Claude — that's a good learning
+When in doubt, look it up there or ask opencode — that's a good learning
 opportunity, not an exception to learning mode.
 
 Key points from it (short reference, doesn't replace reading the guide):
@@ -224,11 +224,11 @@ section when they change.)
 - **No real PDF diffs in unit tests** — instead, check the content of the
   generated intermediate `.typ` file.
 - Test data (small example catalogs) lives under `tests/fixtures/`.
-- I also write the tests myself — Claude may *suggest* test cases (which
+- I also write the tests myself — opencode may *suggest* test cases (which
   edge cases are missing?), but should not supply the test code itself by
   default.
 
-## What Claude should watch for while working on this project
+## What opencode should watch for while working on this project
 
 1. **Respect learning mode** (see above) — this is the most important
    rule, more important than fast results.
@@ -243,7 +243,7 @@ section when they change.)
 5. **No external dependencies "through the back door"** (e.g. LaTeX) —
    check in first if this comes up.
 6. **Keep CMake clean:** new source files explicitly listed in
-   `CMakeLists.txt`, no glob includes — Claude can adjust this directly if
+   `CMakeLists.txt`, no glob includes — opencode can adjust this directly if
    needed (build configuration is not a core learning goal).
 
 ## Open items / next steps

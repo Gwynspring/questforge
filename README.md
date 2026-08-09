@@ -123,7 +123,7 @@ First prototype is finished. What started as a personal learning project is evol
 This is a personal project I'm using to learn C++. It's not accepting contributions or pull requests at this time.
 
 ## AI usage
-This project is developed with AI assistance (Claude Code) used as a learning aid, not as an author of core logic. See [AI_USAGE.md](AI_USAGE.md) for details.
+This project is developed with AI assistance (opencode) used as a learning aid, not as an author of core logic. See [AI_USAGE.md](AI_USAGE.md) for details.
 
 ## License
 MIT — see [LICENSE](LICENSE).
