@@ -139,3 +139,58 @@ TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForEmptyTopic) {
       testing::ThrowsMessage<std::invalid_argument>(
           testing::HasSubstr("invalid declaration of question topic")));
 }
+
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForMissingID) {
+  EXPECT_THAT(
+      [this] {
+        repo_.LoadCatalog(PROJECT_ROOT "/tests/fixtures/missing_id.yaml");
+      },
+      testing::ThrowsMessage<std::invalid_argument>(
+          testing::HasSubstr("required field 'id' is not defined")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForMissingTopic) {
+  EXPECT_THAT(
+      [this] {
+        repo_.LoadCatalog(PROJECT_ROOT "/tests/fixtures/missing_topic.yaml");
+      },
+      testing::ThrowsMessage<std::invalid_argument>(
+          testing::HasSubstr("required field 'topic' is not defined")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForMissingDifficulty) {
+  EXPECT_THAT(
+      [this] {
+        repo_.LoadCatalog(PROJECT_ROOT
+                          "/tests/fixtures/missing_difficulty.yaml");
+      },
+      testing::ThrowsMessage<std::invalid_argument>(
+          testing::HasSubstr("required field 'difficulty' is not defined")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForMissingPoints) {
+  EXPECT_THAT(
+      [this] {
+        repo_.LoadCatalog(PROJECT_ROOT "/tests/fixtures/missing_points.yaml");
+      },
+      testing::ThrowsMessage<std::invalid_argument>(
+          testing::HasSubstr("required field 'points' is not defined")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForMissingText) {
+  EXPECT_THAT(
+      [this] {
+        repo_.LoadCatalog(PROJECT_ROOT "/tests/fixtures/missing_text.yaml");
+      },
+      testing::ThrowsMessage<std::invalid_argument>(
+          testing::HasSubstr("required field 'text' is not defined")));
+}
+
+TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForMissingTags) {
+  EXPECT_THAT(
+      [this] {
+        repo_.LoadCatalog(PROJECT_ROOT "/tests/fixtures/missing_tags.yaml");
+      },
+      testing::ThrowsMessage<std::invalid_argument>(
+          testing::HasSubstr("required field 'tags' is not defined")));
+}

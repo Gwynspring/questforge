@@ -1,0 +1,7 @@
+questions:
+  - id: alg-001
+    topic: algebra
+    difficulty: easy
+    points: 2
+    image: null
+    tags: [equations, linear]

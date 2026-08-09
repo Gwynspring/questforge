@@ -3,6 +3,7 @@
 #include <format>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <unordered_set>
 
 #include <yaml-cpp/yaml.h>
@@ -13,27 +14,52 @@ namespace questforge::repository {
 
 namespace {
 
-void ValidateQuestion(const model::Question& q) {
+std::string FormatLocation(std::size_t index, const YAML::Mark& mark) {
+  return std::format("question #{}, line {}, column {}", index + 1,
+                     mark.line + 1, mark.column + 1);
+}
+
+void RequireField(const YAML::Node& entry, std::string_view field,
+                  std::string_view location) {
+  if (!entry[field].IsDefined() || entry[field].IsNull()) {
+    throw std::invalid_argument(std::format(
+        "required field '{}' is not defined in {}", field, location));
+  }
+}
+
+void CheckEntry(const YAML::Node& entry, std::string_view location) {
+  RequireField(entry, "id", location);
+  RequireField(entry, "topic", location);
+  RequireField(entry, "difficulty", location);
+  RequireField(entry, "points", location);
+  RequireField(entry, "text", location);
+  RequireField(entry, "tags", location);
+}
+
+void ValidateQuestion(const model::Question& q, std::string_view location) {
   if (q.id.empty()) {
     throw std::invalid_argument(
-        "invalid declaration of question id. The id must not be empty");
+        std::format("invalid declaration of question id. The id must not be "
+                    "empty ({})",
+                    location));
   }
   if (q.text.empty()) {
-    throw std::invalid_argument(std::format(
-        "invalid declaration of question text. Question {} text must not be "
-        "empty",
-        q.id));
+    throw std::invalid_argument(
+        std::format("invalid declaration of question text. Question {} text "
+                    "must not be empty ({})",
+                    q.id, location));
   }
   if (q.points <= 0) {
     throw std::invalid_argument(
         std::format("invalid declaration of question points. Points must be "
-                    "greater than 0. Points declared in question {}: {}",
-                    q.id, q.points));
+                    "greater than 0. Points declared in question {}: {} ({})",
+                    q.id, q.points, location));
   }
 
   if (q.topic.empty()) {
-    throw std::invalid_argument(
-        "invalid declaration of question topic. Topic must not be empty");
+    throw std::invalid_argument(std::format(
+        "invalid declaration of question topic. Topic must not be empty ({})",
+        location));
   }
 }
 
@@ -74,8 +100,12 @@ std::vector<model::Question> QuestionRepository::LoadCatalog(
       throw std::runtime_error("Failed to load catalog: " +
                                std::string(e.what()));
     }
+    std::size_t i = 0;
     for (const auto& entry : root["questions"]) {
+      const std::string location = FormatLocation(i, entry.Mark());
+      CheckEntry(entry, location);
       model::Question q;
+
       q.id = entry["id"].as<std::string>();
       q.topic = entry["topic"].as<std::string>();
 
@@ -83,27 +113,29 @@ std::vector<model::Question> QuestionRepository::LoadCatalog(
 
       auto difficulty = model::StringToDifficulty(difficulty_string);
       if (!difficulty) {
-        throw std::invalid_argument("invalid difficulty declaration: " +
-                                    difficulty_string);
+        throw std::invalid_argument(
+            std::format("invalid difficulty declaration: {} ({})",
+                        difficulty_string, location));
       }
       q.difficulty = *difficulty;
-
       q.points = entry["points"].as<int>();
       q.text = entry["text"].as<std::string>();
+      q.tags = entry["tags"].as<std::vector<std::string>>();
+
       if (entry["image"].IsDefined() && !entry["image"].IsNull()) {
         std::string p = entry["image"].as<std::string>();
         q.image = p;
       }
-      q.tags = entry["tags"].as<std::vector<std::string>>();
 
-      ValidateQuestion(q);
+      ValidateQuestion(q, location);
 
       if (!id_set.insert(q.id).second) {
-        throw std::invalid_argument(
-            std::format("duplicated question id found: {}", q.id));
+        throw std::invalid_argument(std::format(
+            "duplicated question id found: {} ({})", q.id, location));
       }
 
       questions.push_back(q);
+      ++i;
     }
   }
   // Only structural parse errors (malformed YAML) are caught and wrapped
