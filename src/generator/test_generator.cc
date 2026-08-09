@@ -9,6 +9,14 @@
 
 namespace questforge::generator {
 
+namespace {
+std::mt19937 MakeNumberGenerator(uint32_t seed, model::Difficulty difficulty) {
+  std::seed_seq seq{seed, static_cast<uint32_t>(difficulty)};
+
+  return std::mt19937{seq};
+}
+}  // namespace
+
 std::vector<model::Question> TestGenerator::TakeN(
     const std::vector<model::Question>& bucket, int count,
     model::Difficulty difficulty) {
@@ -59,11 +67,14 @@ std::vector<model::Question> TestGenerator::Generate(
     seed = filter_criteria.seed.value();
   }
 
-  std::mt19937 mt(seed);
+  std::shuffle(easy.begin(), easy.end(),
+               MakeNumberGenerator(seed, model::Difficulty::kEasy));
 
-  std::shuffle(easy.begin(), easy.end(), mt);
-  std::shuffle(medium.begin(), medium.end(), mt);
-  std::shuffle(hard.begin(), hard.end(), mt);
+  std::shuffle(medium.begin(), medium.end(),
+               MakeNumberGenerator(seed, model::Difficulty::kMedium));
+
+  std::shuffle(hard.begin(), hard.end(),
+               MakeNumberGenerator(seed, model::Difficulty::kHard));
 
   auto easy_selected =
       TakeN(easy, filter_criteria.easy_count, model::Difficulty::kEasy);

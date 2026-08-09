@@ -1,8 +1,26 @@
 #include "generator/test_generator.h"
 
 #include <algorithm>
+#include <ranges>
+#include <string>
+#include <vector>
 
 #include <gtest/gtest.h>
+
+namespace {
+
+std::vector<std::string> IdsOf(
+    const std::vector<questforge::model::Question>& questions,
+    questforge::model::Difficulty difficulty) {
+  auto matching_ids = questions |
+                      std::views::filter([difficulty](const auto& q) {
+                        return q.difficulty == difficulty;
+                      }) |
+                      std::views::transform([](const auto& q) { return q.id; });
+
+  std::vector<std::string> ids(matching_ids.begin(), matching_ids.end());
+  return ids;
+}
 
 std::vector<questforge::model::Question> MakeQuestions() {
   return {
@@ -20,6 +38,27 @@ std::vector<questforge::model::Question> MakeQuestions() {
        "Calculate the area of a circle with r=3.",
        std::nullopt,
        {"area"}},
+      {"alg-101",
+       "algebra",
+       questforge::model::Difficulty::kEasy,
+       2,
+       "Solve: $3x - 4 = 11$",
+       std::nullopt,
+       {"equations", "linear"}},
+      {"alg-102",
+       "algebra",
+       questforge::model::Difficulty::kEasy,
+       2,
+       "Simplify: $2a + 3a - a$",
+       std::nullopt,
+       {"terms"}},
+      {"alg-103",
+       "algebra",
+       questforge::model::Difficulty::kEasy,
+       2,
+       "Solve: $x / 4 = 8$",
+       std::nullopt,
+       {"equations"}},
       {"alg-002",
        "algebra",
        questforge::model::Difficulty::kMedium,
@@ -34,6 +73,27 @@ std::vector<questforge::model::Question> MakeQuestions() {
        "Calculate the perimeter of a rectangle with a=3, b=5.",
        std::nullopt,
        {"perimeter"}},
+      {"geo-101",
+       "geometry",
+       questforge::model::Difficulty::kMedium,
+       4,
+       "Calculate the area of a triangle with a=4, h=6.",
+       std::nullopt,
+       {"area", "triangle"}},
+      {"geo-102",
+       "geometry",
+       questforge::model::Difficulty::kMedium,
+       4,
+       "Calculate the circumference of a circle with d=10.",
+       std::nullopt,
+       {"circle"}},
+      {"geo-103",
+       "geometry",
+       questforge::model::Difficulty::kMedium,
+       4,
+       "Calculate the volume of a cube with a=3.",
+       std::nullopt,
+       {"volume"}},
       {"alg-003",
        "algebra",
        questforge::model::Difficulty::kHard,
@@ -48,8 +108,30 @@ std::vector<questforge::model::Question> MakeQuestions() {
        "Prove the Pythagorean theorem.",
        std::nullopt,
        {"proof"}},
+      {"alg-104",
+       "algebra",
+       questforge::model::Difficulty::kHard,
+       6,
+       "Factor completely: $x^3 - 6x^2 + 11x - 6$.",
+       std::nullopt,
+       {"polynomials"}},
+      {"geo-104",
+       "geometry",
+       questforge::model::Difficulty::kHard,
+       6,
+       "Prove the intercept theorem.",
+       std::nullopt,
+       {"proof"}},
+      {"alg-105",
+       "algebra",
+       questforge::model::Difficulty::kHard,
+       6,
+       "Solve the inequality $2x^2 - 8 > 0$.",
+       std::nullopt,
+       {"inequalities"}},
   };
 }
+}  // namespace
 
 class TestGeneratorTest : public ::testing::Test {
  protected:
@@ -145,3 +227,22 @@ TEST_F(TestGeneratorTest, SelectsExactCountPerDifficulty) {
   EXPECT_EQ(count_medium, 0);
   EXPECT_EQ(count_hard, 1);
 };
+
+TEST_F(TestGeneratorTest, ChangingOneBucketLeavesOtherBucketsUnchanged) {
+  std::vector<questforge::model::Question> questions_b = questions_;
+  questions_b.push_back({"alg-004",
+                         "algebra",
+                         questforge::model::Difficulty::kEasy,
+                         2,
+                         "Solve: $5x + 3 = 9$",
+                         std::nullopt,
+                         {"equations", "linear"}});
+
+  auto result_a = generator_.Generate(questions_, fc_seed_a);
+  auto result_b = generator_.Generate(questions_b, fc_seed_a);
+
+  EXPECT_EQ(IdsOf(result_a, questforge::model::Difficulty::kMedium),
+            IdsOf(result_b, questforge::model::Difficulty::kMedium));
+  EXPECT_EQ(IdsOf(result_a, questforge::model::Difficulty::kHard),
+            IdsOf(result_b, questforge::model::Difficulty::kHard));
+}
