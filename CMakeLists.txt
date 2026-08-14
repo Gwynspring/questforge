@@ -47,6 +47,7 @@ add_library(questforge_lib STATIC
   src/repository/question_repository.cc
   src/generator/test_generator.cc
   src/platform/process_runner.cc
+  src/platform/windows_command_line.cc
   src/renderer/typst_renderer.cc
 )
 

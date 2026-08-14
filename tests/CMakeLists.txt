@@ -63,3 +63,13 @@ gtest_discover_tests(typst_renderer_test)
 target_compile_definitions(typst_renderer_test PRIVATE
   PROJECT_ROOT="${PROJECT_SOURCE_DIR}"
 )
+
+add_executable(windows_command_line_test
+  windows_command_line_test.cc
+)
+target_include_directories(windows_command_line_test PRIVATE ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(windows_command_line_test PRIVATE
+  GTest::gtest_main
+  questforge_lib
+)
+gtest_discover_tests(windows_command_line_test)

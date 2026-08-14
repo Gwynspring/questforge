@@ -2,13 +2,14 @@
 
 #ifdef _WIN32
 
-#include <cctype>
 #include <cerrno>
 #include <format>
 #include <stdexcept>
 #include <system_error>
 
 #include <windows.h>
+
+#include "platform/windows_command_line.h"
 
 #else
 
@@ -26,37 +27,6 @@
 namespace questforge::platform {
 
 #ifdef _WIN32
-namespace {
-bool ContainsSpace(const std::string& str) {
-  for (char ch : str) {
-    if (isspace(static_cast<unsigned char>(ch))) {
-      return true;
-    }
-  }
-  return false;
-}
-
-std::string BuildCommandLine(const std::vector<std::string>& args) {
-  std::string argument;
-  size_t len = args.size();
-  size_t i = 0;
-
-  for (const auto& entry : args) {
-    if (!ContainsSpace(entry)) {
-      argument.append(entry);
-    } else {
-      std::string escaped_arg = "\"" + entry + "\"";
-      argument.append(escaped_arg);
-    }
-    if (i < len - 1) {
-      argument.append(" ");
-    }
-    i++;
-  }
-  return argument;
-}
-
-}  // namespace
 
 void WindowsProcessRunner::Run(const std::vector<std::string>& args) const {
   std::string command_line = BuildCommandLine(args);
