@@ -46,10 +46,17 @@ add_library(questforge_lib STATIC
   src/cli/arg_parser.cc
   src/repository/question_repository.cc
   src/generator/test_generator.cc
-  src/platform/process_runner.cc
   src/platform/windows_command_line.cc
   src/renderer/typst_renderer.cc
 )
+
+# Platform-specific ProcessRunner implementations (windows_command_line.cc is
+# compiled on all platforms so its quoting logic stays unit-testable).
+if(WIN32)
+  target_sources(questforge_lib PRIVATE src/platform/windows_process_runner.cc)
+else()
+  target_sources(questforge_lib PRIVATE src/platform/posix_process_runner.cc)
+endif()
 
 target_include_directories(questforge_lib PUBLIC src)
 
