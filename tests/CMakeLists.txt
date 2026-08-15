@@ -64,6 +64,16 @@ target_compile_definitions(typst_renderer_test PRIVATE
   PROJECT_ROOT="${PROJECT_SOURCE_DIR}"
 )
 
+add_executable(date_test
+  date_test.cc
+)
+target_include_directories(date_test PRIVATE ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(date_test PRIVATE
+  GTest::gtest_main
+  questforge_lib
+)
+gtest_discover_tests(date_test)
+
 add_executable(windows_command_line_test
   windows_command_line_test.cc
 )

@@ -48,6 +48,7 @@ add_library(questforge_lib STATIC
   src/generator/test_generator.cc
   src/platform/windows_command_line.cc
   src/renderer/typst_renderer.cc
+  src/util/date.cc
 )
 
 # Platform-specific ProcessRunner implementations (windows_command_line.cc is
