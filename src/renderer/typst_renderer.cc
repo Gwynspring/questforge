@@ -27,6 +27,7 @@ TypstRenderer::TypstRenderer(std::filesystem::path template_path)
 
 void TypstRenderer::Render(
     const std::vector<questforge::model::Question>& questions,
+    const questforge::model::Header& header,
     const std::filesystem::path& output_path) {
   nlohmann::json arr = nlohmann::json::array();
 
@@ -48,7 +49,25 @@ void TypstRenderer::Render(
     arr.push_back(obj);
   }
 
-  nlohmann::json data = {{"questions", arr}, {"total_points", total_points}};
+  nlohmann::json header_data;
+
+  header_data["school"] = header.school_lines;
+
+  if (header.logo.has_value()) {
+    header_data["logo"] = header.logo->string();
+  } else {
+    header_data["logo"] = nullptr;
+  }
+
+  if (header.date.has_value()) {
+    header_data["date"] = *header.date;
+  } else {
+    header_data["date"] = nullptr;
+  }
+
+  nlohmann::json data = {{"questions", arr},
+                         {"header", header_data},
+                         {"total_points", total_points}};
 
   inja::Environment env;
 

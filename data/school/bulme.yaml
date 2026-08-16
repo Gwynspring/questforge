@@ -1,0 +1,7 @@
+# Example school header config for questforge.
+# The logo path is resolved relative to this config file.
+school:
+  - Höhere Technische Bundes-Lehranstalt
+  - Graz-Gösting (BULME)
+  - Abteilung für Elektrotechnik
+logo: bulme.png

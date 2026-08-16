@@ -7,6 +7,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include "model/header.h"
+
 std::vector<questforge::model::Question> MakeQuestions() {
   return {
       {"alg-001",
@@ -56,9 +58,18 @@ std::vector<questforge::model::Question> MakeQuestions() {
 
 class RendererTest : public ::testing::Test {
  protected:
-  void SetUp() override { questions_ = MakeQuestions(); }
+  void SetUp() override {
+    questions_ = MakeQuestions();
+    header_ = {"logo.png",
+               {"Höhere Technische Bundes-Lehranstalt", "Graz-Gösting (BULME)",
+                "Abteilung für Elektrotechnik"},
+               "15.08.2026"};
+  };
 
   std::vector<questforge::model::Question> questions_;
+
+  questforge::model::Header header_;
+
   std::filesystem::path template_path_ =
       PROJECT_ROOT "/templates/test.typ.jinja";
   std::filesystem::path test_output_path_ =
@@ -76,7 +87,7 @@ TEST_F(RendererTest, FillTemplateSuccessfully) {
   questforge::renderer::TypstRenderer renderer(template_path_,
                                                std::move(owned));
 
-  renderer.Render(questions_, test_output_path_);
+  renderer.Render(questions_, header_, test_output_path_);
 
   auto test_output_file = test_output_path_;
 
@@ -102,5 +113,28 @@ TEST_F(RendererTest, InvokesRunnerWithTypstArgs) {
   EXPECT_CALL(*mock, Run(testing::ElementsAre("typst", "compile", testing::_,
                                               testing::_)));
 
-  renderer.Render(questions_, test_output_path_);
+  renderer.Render(questions_, header_, test_output_path_);
+}
+
+TEST_F(RendererTest, RendersHeaderContentSuccessfully) {
+  auto owned = std::make_unique<testing::NiceMock<MockProcessRunner>>();
+
+  questforge::renderer::TypstRenderer renderer(template_path_,
+                                               std::move(owned));
+
+  renderer.Render(questions_, header_, test_output_path_);
+
+  auto test_output_file = test_output_path_;
+
+  test_output_file.replace_extension(".typ");
+
+  std::ifstream test_file(test_output_file);
+
+  std::string content((std::istreambuf_iterator<char>(test_file)),
+                      std::istreambuf_iterator<char>());
+
+  EXPECT_NE(content.find("Höhere Technische Bundes-Lehranstalt"),
+            std::string::npos);
+  EXPECT_NE(content.find("Graz-Gösting (BULME"), std::string::npos);
+  EXPECT_NE(content.find("Abteilung für Elektrotechnik"), std::string::npos);
 }

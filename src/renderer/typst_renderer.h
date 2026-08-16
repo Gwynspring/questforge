@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 
+#include "model/header.h"
 #include "model/question.h"
 #include "platform/process_runner.h"
 
@@ -19,6 +20,7 @@ class TypstRenderer {
 
   // Throws std::runtime_error if an error occurs
   void Render(const std::vector<questforge::model::Question>& questions,
+              const questforge::model::Header& header,
               const std::filesystem::path& output_path);
 
  private:

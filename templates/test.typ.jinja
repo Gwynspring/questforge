@@ -1,10 +1,27 @@
 #set page(margin: 2.5cm)
 #set text(font: "New Computer Modern", size: 11pt)
 
+{% if header.logo or length(header.school) > 0 %}
+#grid(
+  columns: (auto, 1fr),
+  align: horizon,
+  {% if header.logo %}
+  image("{{ header.logo }}", height: 2.5cm),
+  {% else %}
+  [],
+  {% endif %}
+  align(center)[
+    {% for line in header.school %}{{ line }}{% if not loop.is_last %} \{% endif %}
+    {% endfor %}
+  ],
+)
+#v(1.5em)
+{% endif %}
+
 #grid(
   columns: (1fr, 1fr),
   [*Name:* #line(length: 6cm)],
-  [*Datum:* #line(length: 4cm)],
+  align(right)[*Datum:* {% if header.date %}{{ header.date }}{% else %}#line(length: 4cm){% endif %}],
 )
 
 #v(1em)

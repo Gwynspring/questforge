@@ -6,6 +6,7 @@
 
 #include "cli/arg_parser.h"
 #include "generator/test_generator.h"
+#include "model/header.h"
 #include "renderer/typst_renderer.h"
 #include "repository/question_repository.h"
 
@@ -39,7 +40,8 @@ int main(int argc, char* argv[]) {
 
     questforge::renderer::TypstRenderer renderer(opts.typst_template);
 
-    renderer.Render(selected_questions, opts.output);
+    renderer.Render(selected_questions, questforge::model::Header{},
+                    opts.output);
 
   } catch (const std::exception& e) {
     // TODO: Implement spdlog instead of cerr
