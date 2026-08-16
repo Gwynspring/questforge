@@ -10,6 +10,7 @@ A C++20 command-line tool that assembles randomized exams from a YAML question c
 - [Build](#build)
 - [Usage](#usage)
 - [Question catalog format](#question-catalog-format)
+- [School header config](#school-header-config)
 - [Project status](#project-status)
 - [Contributing](#contributing)
 - [AI usage](#ai-usage)
@@ -85,6 +86,15 @@ Available options for `generate`:
 | `--topics` | no | Comma-separated list of topics to filter by (e.g. `algebra,geometry`). |
 | `-s, --seed` | no | Explicit random seed for reproducible selection. |
 | `--template` | no | Path to the Typst template (default: `templates/test.typ.jinja`). |
+| `--config` | no | Path to a school header config (logo + school name, see below). |
+| `--date` | no | `auto` fills in today's date (UTC), any other string is printed as-is. Omit to keep a handwritten date line. |
+
+Example with a school header and auto-generated date:
+
+```bash
+./build/questforge generate --catalog data/catalog/algebra.yaml --easy 1 \
+  --config data/school/bulme.yaml --date auto --out /tmp/test.pdf
+```
 
 ## Question catalog format
 
@@ -114,6 +124,30 @@ Fields per question:
 Math is written in Typst syntax (not LaTeX).
 
 If you are not familiar with the typst syntax, take a look at the official typst tutorial available [here](https://typst.app/docs/tutorial/)
+
+## School header config
+
+With `--config`, the generated PDF gets a school header: an optional logo on
+the left and the school name lines centered next to it (see
+`data/school/bulme.yaml` for an example).
+
+```yaml
+school:
+  - Höhere Technische Bundes-Lehranstalt
+  - Graz-Gösting (BULME)
+  - Abteilung für Elektrotechnik
+logo: bulme.png
+```
+
+| Field | Required | Description |
+|---|---|---|
+| `school` | yes | List of text lines, rendered centered in the header. |
+| `logo` | no | Path to the logo image, resolved relative to the config file. |
+
+Without `--config`, no header is rendered. The date is controlled
+independently via `--date`: `auto` prints today's date (UTC), any other
+value is printed verbatim, and omitting the flag keeps a blank line for a
+handwritten date.
 
 ## Project status
 
