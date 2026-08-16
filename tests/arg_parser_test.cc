@@ -55,3 +55,30 @@ TEST(ArgParserTest, ThrowErrorForNegativeNumber) {
                           "--seed", "42", "--topics", "a,b"}),
                CLI::ParseError);
 }
+
+TEST(ArgParserTest, ParsesDateAndConfigSuccessfully) {
+  questforge::cli::CliOptions opts = ParseArgs(
+      {"questforge", "generate", "--catalog", "cat.yaml", "--out", "t.pdf",
+       "--date", "15.08.2026", "--config", "data/school/test.yaml"});
+
+  EXPECT_EQ(opts.date, "15.08.2026");
+  EXPECT_EQ(opts.config, "data/school/test.yaml");
+}
+
+TEST(ArgParserTest, ParsesDateWithoutConfigSuccessfully) {
+  questforge::cli::CliOptions opts =
+      ParseArgs({"questforge", "generate", "--catalog", "cat.yaml", "--out",
+                 "t.pdf", "--date", "15.08.2026"});
+
+  EXPECT_EQ(opts.date, "15.08.2026");
+  EXPECT_EQ(opts.config, std::nullopt);
+}
+
+TEST(ArgParserTest, ParsesConfigWithoutDateSuccessfully) {
+  questforge::cli::CliOptions opts =
+      ParseArgs({"questforge", "generate", "--catalog", "cat.yaml", "--out",
+                 "t.pdf", "--config", "data/school/test.yaml"});
+
+  EXPECT_EQ(opts.date, std::nullopt);
+  EXPECT_EQ(opts.config, "data/school/test.yaml");
+}

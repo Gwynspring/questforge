@@ -27,6 +27,8 @@ CliOptions ArgParser::Parse(int argc, char* argv[]) {
   gen->add_option("--hard", opts.hard_count)->check(CLI::NonNegativeNumber);
   gen->add_option("-s,--seed", opts.seed);
   gen->add_option("--topics", opts.topics)->delimiter(',');
+  gen->add_option("--date", opts.date);
+  gen->add_option("--config", opts.config);
 
   app_.require_subcommand(1);
   app_.parse(argc, argv);

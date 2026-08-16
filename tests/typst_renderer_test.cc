@@ -110,8 +110,9 @@ TEST_F(RendererTest, InvokesRunnerWithTypstArgs) {
   questforge::renderer::TypstRenderer renderer(template_path_,
                                                std::move(owned));
 
-  EXPECT_CALL(*mock, Run(testing::ElementsAre("typst", "compile", testing::_,
-                                              testing::_)));
+  EXPECT_CALL(*mock,
+              Run(testing::ElementsAre("typst", "compile", "--root", testing::_,
+                                       testing::_, testing::_)));
 
   renderer.Render(questions_, header_, test_output_path_);
 }

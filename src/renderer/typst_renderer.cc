@@ -71,6 +71,7 @@ void TypstRenderer::Render(
 
   inja::Environment env;
 
+  auto root_path = std::filesystem::absolute(output_path).root_path();
   auto typ_path = output_path;
   if (typ_path.extension() != ".pdf") {
     throw std::runtime_error(std::format(
@@ -93,8 +94,9 @@ void TypstRenderer::Render(
         "Output file {} was not closed successfully.", typ_path.string()));
   }
 
-  std::vector<std::string> args{"typst", "compile", typ_path.string(),
-                                output_path.string()};
+  std::vector<std::string> args{"typst",           "compile",
+                                "--root",          root_path.string(),
+                                typ_path.string(), output_path.string()};
 
   runner_->Run(args);
 }

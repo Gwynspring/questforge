@@ -17,7 +17,7 @@ model::Header LoadHeader(const std::filesystem::path& path) {
 
     if (root["logo"].IsDefined() && !root["logo"].IsNull()) {
       auto logo = root["logo"].as<std::string>();
-      header.logo = path.parent_path() / logo;
+      header.logo = std::filesystem::absolute(path.parent_path()) / logo;
     }
 
     if (!root["school"].IsSequence()) {

@@ -210,7 +210,19 @@ ctest --test-dir build --output-on-failure
 
 # Run the program
 ./build/questforge generate --catalog data/catalog/algebra.yaml --easy 1 --medium 1 --hard 1 --out test1.pdf
+
+# With school header (logo + centered school name from a YAML config)
+# and an auto-generated date:
+./build/questforge generate --catalog data/catalog/algebra.yaml --easy 1 \
+  --config data/school/bulme.yaml --date auto --out test1.pdf
 ```
+
+`--config <file>` points to a school header config (see
+`data/school/bulme.yaml`; the logo path resolves relative to the config
+file). `--date` accepts `auto` (today's date, UTC) or an explicit date
+string; omitting it keeps the handwritten date line. The Typst
+subprocess runs with `--root` set to the output path's filesystem root
+so absolute image paths work (single-drive limitation on Windows).
 
 The Nix devShell is defined in `~/GwynOS/modules/dev/questforge.nix` and
 provides all build tools and libraries. After changes to the devShell:

@@ -17,6 +17,8 @@ struct CliOptions {
   std::filesystem::path catalog;
   std::filesystem::path typst_template = "templates/test.typ.jinja";
   std::filesystem::path output;
+  std::optional<std::filesystem::path> config;
+  std::optional<std::string> date;
   int easy_count = 0;
   int medium_count = 0;
   int hard_count = 0;

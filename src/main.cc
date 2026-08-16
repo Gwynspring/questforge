@@ -8,7 +8,9 @@
 #include "generator/test_generator.h"
 #include "model/header.h"
 #include "renderer/typst_renderer.h"
+#include "repository/header_repository.h"
 #include "repository/question_repository.h"
+#include "util/date.h"
 
 int main(int argc, char* argv[]) {
   questforge::cli::ArgParser parser;
@@ -25,6 +27,16 @@ int main(int argc, char* argv[]) {
     std::vector<questforge::model::Question> questions =
         question_repository.LoadCatalog(opts.catalog);
 
+    questforge::model::Header header;
+    if (opts.config.has_value()) {
+      header = questforge::repository::LoadHeader(opts.config->string());
+    }
+
+    if (opts.date) {
+      header.date =
+          (*opts.date == "auto") ? questforge::util::FormatToday() : *opts.date;
+    }
+
     questforge::generator::TestGenerator generator;
 
     questforge::generator::FilterCriteria filter_criteria;
@@ -40,8 +52,7 @@ int main(int argc, char* argv[]) {
 
     questforge::renderer::TypstRenderer renderer(opts.typst_template);
 
-    renderer.Render(selected_questions, questforge::model::Header{},
-                    opts.output);
+    renderer.Render(selected_questions, header, opts.output);
 
   } catch (const std::exception& e) {
     // TODO: Implement spdlog instead of cerr
