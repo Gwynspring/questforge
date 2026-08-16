@@ -39,6 +39,20 @@ target_compile_definitions(question_repository_test PRIVATE
 )
 gtest_discover_tests(question_repository_test)
 
+add_executable(header_repository_test
+  header_repository_test.cc
+)
+target_include_directories(header_repository_test PRIVATE ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(header_repository_test PRIVATE
+  GTest::gmock
+  GTest::gtest_main
+  questforge_lib
+)
+target_compile_definitions(header_repository_test PRIVATE
+  PROJECT_ROOT="${PROJECT_SOURCE_DIR}"
+)
+gtest_discover_tests(header_repository_test)
+
 add_executable(test_generator_test
   test_generator_test.cc
 )

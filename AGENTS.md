@@ -175,6 +175,11 @@ Key points from it (short reference, doesn't replace reading the guide):
 - **Line length:** 80 characters, 2-space indentation.
 - **Header/source separation:** every class has a `.h` + `.cc`, no
   header-only classes except for trivial structs or templates.
+- **Repositories are free functions, not classes** (e.g. `LoadHeader()`
+  in `repository/header_repository.{h,cc}`). A repository function only
+  becomes a class if it needs to encapsulate state or be mockable.
+  `QuestionRepository` predates this rule and may be refactored to a
+  free function later.
 - **Error handling:** exceptions for unrecoverable errors (e.g. broken
   YAML, Typst subprocess failure); no error codes as return values. (Note:
   the guide itself is skeptical of exceptions for Google-internal code —
