@@ -124,7 +124,7 @@ std::vector<model::Question> QuestionRepository::LoadCatalog(
 
       if (entry["image"].IsDefined() && !entry["image"].IsNull()) {
         std::string p = entry["image"].as<std::string>();
-        q.image = p;
+        q.image = std::filesystem::absolute(path.parent_path()) / p;
       }
 
       ValidateQuestion(q, location);

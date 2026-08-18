@@ -194,3 +194,14 @@ TEST_F(QuestionRepositoryTest, ThrowsInvalidArgumentForMissingTags) {
       testing::ThrowsMessage<std::invalid_argument>(
           testing::HasSubstr("required field 'tags' is not defined")));
 }
+
+TEST_F(QuestionRepositoryTest, LoadsImagePathSuccessfully) {
+  const std::filesystem::path path =
+      PROJECT_ROOT "/tests/fixtures/question_with_image.yaml";
+
+  auto questions = repo_.LoadCatalog(path);
+
+  const auto path_expected = path.parent_path() / "graph.png";
+
+  EXPECT_EQ(questions.at(0).image, path_expected);
+}
