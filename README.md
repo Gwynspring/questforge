@@ -26,7 +26,9 @@ A C++20 command-line tool that assembles randomized exams from a YAML question c
 
 Given a catalog of questions (with metadata like topic, difficulty, and points), questforge selects a random subset matching your criteria and produces a print-ready PDF. Multiple test variants with different question selections can be generated from the same catalog using explicit seeds for reproducibility.
 
-![Example of a generated test with a school header](assets/example_test.png)
+<p align="center">
+  <img src="assets/example_test.png" alt="Example of a generated test with a school header" width="70%">
+</p>
 
 ## Features
 
