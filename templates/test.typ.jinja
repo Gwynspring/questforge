@@ -21,7 +21,7 @@
 #grid(
   columns: (1fr, 1fr),
   [*Name:* #line(length: 6cm)],
-  align(right)[*Datum:* {% if header.date %}{{ header.date }}{% else %}#line(length: 4cm){% endif %}],
+  align(right)[*Date:* {% if header.date %}{{ header.date }}{% else %}#line(length: 4cm){% endif %}],
 )
 
 #v(1em)
@@ -40,4 +40,4 @@
 {% endfor %}
 
 #line(length: 100%)
-#align(right)[*Gesamt: \_\_\_ / {{ total_points }} Punkte*]
+#align(right)[*Total: \_\_\_ / {{ total_points }} points*]

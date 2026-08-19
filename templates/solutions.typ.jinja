@@ -18,12 +18,12 @@
 #v(1.5em)
 {% endif %}
 
-#align(center)[#text(size: 16pt)[*Lösungen*]]
+#align(center)[#text(size: 16pt)[*Solutions*]]
 
 #grid(
   columns: (1fr, 1fr),
   [],
-  align(right)[{% if header.date %}*Datum:* {{ header.date }}{% endif %}],
+  align(right)[{% if header.date %}*Date:* {{ header.date }}{% endif %}],
 )
 
 #v(1em)
@@ -35,10 +35,10 @@
   *{{ loop.index1 }}.* {{ question.text }}
   #h(1fr) *({{ question.points }} P)*
 
-  *Lösung:* {{ question.solution }}
+  *Solution:* {{ question.solution }}
   #v(2em)
 ]
 {% endfor %}
 
 #line(length: 100%)
-#align(right)[*Gesamt: {{ total_points }} Punkte*]
+#align(right)[*Total: {{ total_points }} points*]
