@@ -137,6 +137,7 @@ Every question has at least:
   points: 2
   text: "Solve the equation: $2x + 3 = 7$"
   image: null            # optional, path relative to the catalog
+  solution: "$x = 2$"    # optional, required for --solutions
   tags: [equations, linear]
 ```
 
@@ -277,4 +278,5 @@ section when they change.)
 - [x] First end-to-end pipeline (load catalog → select → render) as a
       proof of concept
 - [x] `ArgParser` unit tests (GoogleTest)
-- [ ] Later: solution sheet generation, GUI
+- [x] Solution sheet generation (`--solutions`)
+- [ ] Later: GUI

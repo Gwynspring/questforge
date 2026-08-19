@@ -37,6 +37,7 @@ Given a catalog of questions (with metadata like topic, difficulty, and points),
 - **Multiple variants** — combine different seeds and filters to generate distinct versions of one test from a single catalog.
 - **Print-ready PDFs** — clean, school-friendly layout rendered by Typst; math is written in Typst syntax (not LaTeX).
 - **School header** — optional logo and school name lines from a small YAML config (see below).
+- **Solution sheets** — `--solutions` renders a matching solution sheet from the same selection in the same run, so questions and solutions can never drift apart.
 
 ## How it works
 
@@ -124,6 +125,7 @@ Available options for `generate`:
 | `--template` | no | Path to the Typst template (default: `templates/test.typ.jinja`). |
 | `--config` | no | Path to a school header config (logo + school name, see below). |
 | `--date` | no | `auto` fills in today's date (UTC); any other value is printed as-is; omit to keep a handwritten date line. |
+| `--solutions` | no | Additionally renders a solution sheet PDF to this path; requires every selected question to have a `solution`. |
 
 Example with a school header and auto-generated date:
 
@@ -153,6 +155,7 @@ questions:
     points: 2
     text: "Solve: $2x + 3 = 7$"
     image: null           # optional path relative to catalog
+    solution: "$2x = 7 - 3$ → $x = 2$"   # optional, needed for --solutions
     tags: [equations, linear]
 ```
 
@@ -166,6 +169,7 @@ Fields per question:
 | `points` | yes | Points awarded for the question (must be > 0). |
 | `text` | yes | Question text; math in Typst syntax. |
 | `image` | no | Path to an image, relative to the catalog (default: `null`). |
+| `solution` | no | Solution text (Typst syntax). Required on every selected question when using `--solutions`. |
 | `tags` | yes | List of tags (can be empty, e.g. `[]`). |
 
 Math is written in Typst syntax (not LaTeX). If you are not familiar with it, see the [official Typst tutorial](https://typst.app/docs/tutorial/).
