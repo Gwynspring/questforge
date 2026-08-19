@@ -139,3 +139,32 @@ TEST_F(RendererTest, RendersHeaderContentSuccessfully) {
   EXPECT_NE(content.find("Graz-Gösting (BULME"), std::string::npos);
   EXPECT_NE(content.find("Abteilung für Elektrotechnik"), std::string::npos);
 }
+
+TEST_F(RendererTest, RendersSolutionsContentSuccessfully) {
+  auto owned = std::make_unique<testing::NiceMock<MockProcessRunner>>();
+
+  questforge::renderer::TypstRenderer renderer(
+      PROJECT_ROOT "/templates/solutions.typ.jinja", std::move(owned));
+  std::vector<questforge::model::Question> questions_with_solution = {
+      {"alg-001",
+       "algebra",
+       questforge::model::Difficulty::kEasy,
+       2,
+       "Solve: $2x + 3 = 7$",
+       std::nullopt,
+       {"equations", "linear"},
+       {"$x = 2$"}}};
+
+  renderer.Render(questions_with_solution, header_, test_output_path_);
+
+  auto test_output_file = test_output_path_;
+
+  test_output_file.replace_extension(".typ");
+
+  std::ifstream test_file(test_output_file);
+
+  std::string content((std::istreambuf_iterator<char>(test_file)),
+                      std::istreambuf_iterator<char>());
+
+  EXPECT_NE(content.find("x = 2"), std::string::npos);
+}

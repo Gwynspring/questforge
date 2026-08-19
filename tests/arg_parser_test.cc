@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include <CLI/CLI.hpp>
 #include <gtest/gtest.h>
 
 questforge::cli::CliOptions ParseArgs(std::vector<std::string> args) {
@@ -81,4 +82,18 @@ TEST(ArgParserTest, ParsesConfigWithoutDateSuccessfully) {
 
   EXPECT_EQ(opts.date, std::nullopt);
   EXPECT_EQ(opts.config, "data/school/test.yaml");
+}
+
+TEST(ArgParserTest, ParsesSolutionsSuccessfully) {
+  questforge::cli::CliOptions opts =
+      ParseArgs({"questforge", "generate", "--catalog", "cat.yaml", "--out",
+                 "t.pdf", "--solutions", "solutions.pdf"});
+  EXPECT_EQ(opts.solutions, "solutions.pdf");
+  EXPECT_EQ(opts.solutions_template, "templates/solutions.typ.jinja");
+}
+
+TEST(ArgParserTest, ThrowErrorForWrongSolutionsFileFormat) {
+  EXPECT_THROW(ParseArgs({"questforge", "generate", "--catalog", "cat.yaml",
+                          "--out", "t.pdf", "--solutions", "solutions.txt"}),
+               CLI::ValidationError);
 }

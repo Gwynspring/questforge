@@ -1,0 +1,44 @@
+#set page(margin: 2.5cm)
+#set text(font: "New Computer Modern", size: 11pt)
+
+{% if header.logo or length(header.school) > 0 %}
+#grid(
+  columns: (auto, 1fr),
+  align: horizon,
+  {% if header.logo %}
+  image("{{ header.logo }}", height: 2.5cm),
+  {% else %}
+  [],
+  {% endif %}
+  align(center)[
+    {% for line in header.school %}{{ line }}{% if not loop.is_last %} \{% endif %}
+    {% endfor %}
+  ],
+)
+#v(1.5em)
+{% endif %}
+
+#align(center)[#text(size: 16pt)[*Lösungen*]]
+
+#grid(
+  columns: (1fr, 1fr),
+  [],
+  align(right)[{% if header.date %}*Datum:* {{ header.date }}{% endif %}],
+)
+
+#v(1em)
+#line(length: 100%)
+#v(1em)
+
+{% for question in questions %}
+#block[
+  *{{ loop.index1 }}.* {{ question.text }}
+  #h(1fr) *({{ question.points }} P)*
+
+  *Lösung:* {{ question.solution }}
+  #v(2em)
+]
+{% endfor %}
+
+#line(length: 100%)
+#align(right)[*Gesamt: {{ total_points }} Punkte*]

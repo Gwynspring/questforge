@@ -45,6 +45,12 @@ void TypstRenderer::Render(
       obj["image"] = nullptr;
     }
 
+    if (entry.solution.has_value()) {
+      obj["solution"] = *entry.solution;
+    } else {
+      obj["solution"] = nullptr;
+    }
+
     total_points += entry.points;
     arr.push_back(obj);
   }

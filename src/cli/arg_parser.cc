@@ -5,6 +5,19 @@
 
 namespace questforge::cli {
 
+namespace {
+std::string CheckPath(const std::string& path, const std::string& file) {
+  const std::filesystem::path p = path;
+  if (p.extension().string() == ".pdf") {
+    return static_cast<std::string>("");
+  } else {
+    return std::format("{} file must be '.pdf' not {}", file,
+                       p.extension().string());
+  }
+}
+
+}  // namespace
+
 CliOptions ArgParser::Parse(int argc, char* argv[]) {
   CliOptions opts;
 
@@ -14,14 +27,8 @@ CliOptions ArgParser::Parse(int argc, char* argv[]) {
   gen->add_option("--template", opts.typst_template);
   gen->add_option("-o,--out", opts.output)
       ->required()
-      ->check([](const std::filesystem::path& p) {
-        if (p.extension().string() == ".pdf") {
-          return static_cast<std::string>("");
-        } else {
-          return std::format("Output file must be '.pdf' not {}",
-                             p.extension().string());
-        }
-      });
+      ->check(
+          [](const std::string& value) { return CheckPath(value, "Output"); });
   gen->add_option("--easy", opts.easy_count)->check(CLI::NonNegativeNumber);
   gen->add_option("--medium", opts.medium_count)->check(CLI::NonNegativeNumber);
   gen->add_option("--hard", opts.hard_count)->check(CLI::NonNegativeNumber);
@@ -29,6 +36,10 @@ CliOptions ArgParser::Parse(int argc, char* argv[]) {
   gen->add_option("--topics", opts.topics)->delimiter(',');
   gen->add_option("--date", opts.date);
   gen->add_option("--config", opts.config);
+  gen->add_option("--solutions", opts.solutions)
+      ->check([](const std::string& value) {
+        return CheckPath(value, "Solutions");
+      });
 
   app_.require_subcommand(1);
   app_.parse(argc, argv);

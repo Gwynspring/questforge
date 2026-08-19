@@ -205,3 +205,21 @@ TEST_F(QuestionRepositoryTest, LoadsImagePathSuccessfully) {
 
   EXPECT_EQ(questions.at(0).image, path_expected);
 }
+
+TEST_F(QuestionRepositoryTest, LoadsSolutionSuccessfully) {
+  const std::filesystem::path path =
+      PROJECT_ROOT "/tests/fixtures/question_with_solution.yaml";
+
+  auto questions = repo_.LoadCatalog(path);
+
+  EXPECT_EQ(questions.at(0).solution, "$x = 2$");
+}
+
+TEST_F(QuestionRepositoryTest, LoadsQuestionWithoutSolution) {
+  const std::filesystem::path path =
+      PROJECT_ROOT "/tests/fixtures/question_without_solution.yaml";
+
+  auto questions = repo_.LoadCatalog(path);
+
+  EXPECT_EQ(questions.at(0).solution, std::nullopt);
+}

@@ -24,6 +24,8 @@ struct CliOptions {
   int hard_count = 0;
   std::optional<uint32_t> seed;
   std::optional<std::vector<std::string>> topics;
+  std::optional<std::filesystem::path> solutions;
+  std::filesystem::path solutions_template = "templates/solutions.typ.jinja";
 };
 
 class ArgParser {

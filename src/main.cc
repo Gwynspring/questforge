@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <format>
 #include <iostream>
 #include <vector>
 
@@ -49,6 +50,18 @@ int main(int argc, char* argv[]) {
 
     std::vector<questforge::model::Question> selected_questions =
         generator.Generate(questions, filter_criteria);
+
+    if (opts.solutions) {
+      for (const auto& entry : selected_questions) {
+        if (!entry.solution.has_value()) {
+          throw std::runtime_error(std::format(
+              "Question with Id {} does not have a solution!", entry.id));
+        }
+      }
+      questforge::renderer::TypstRenderer renderer_solution(
+          opts.solutions_template);
+      renderer_solution.Render(selected_questions, header, *opts.solutions);
+    }
 
     questforge::renderer::TypstRenderer renderer(opts.typst_template);
 

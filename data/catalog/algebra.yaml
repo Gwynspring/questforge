@@ -5,6 +5,7 @@ questions:
     points: 2
     text: "Solve the equation: $2x + 3 = 7$"
     image: null
+    solution: "$2x = 7 - 3$ → $2x = 4$ → $x = 2$"
     tags: [equations, linear]
 
   - id: alg-002
@@ -13,6 +14,7 @@ questions:
     points: 2
     text: "Simplify the expression: $3a + 5b - a + 2b$"
     image: null
+    solution: "$3a + 5b - a + 2b = 2a + 7b$"
     tags: [terms, simplifying]
 
   - id: alg-003
@@ -21,6 +23,7 @@ questions:
     points: 2
     text: "Solve the equation: $5x = 20$"
     image: null
+    solution: "$x = frac(20, 5) = 4$"
     tags: [equations, linear]
 
   - id: alg-004
@@ -29,6 +32,7 @@ questions:
     points: 2
     text: "Simplify the expression: $4x + 7 - 2x + 3$"
     image: null
+    solution: "$4x + 7 - 2x + 3 = 2x + 10$"
     tags: [terms, simplifying]
 
   - id: alg-005
@@ -37,6 +41,7 @@ questions:
     points: 2
     text: "Solve the equation: $frac(x, 3) = 6$"
     image: null
+    solution: "$x = 6 dot 3 = 18$"
     tags: [equations, linear]
 
   - id: alg-006
@@ -45,6 +50,7 @@ questions:
     points: 4
     text: "Solve the system of equations:\n$x + y = 5$\n$2x - y = 4$"
     image: null
+    solution: "Add the equations: $3x = 9$ → $x = 3$; substitute back: $y = 5 - 3 = 2$"
     tags: [system-of-equations, linear]
 
   - id: alg-007
@@ -53,6 +59,7 @@ questions:
     points: 3
     text: "Factor the expression: $x^2 - 4x + 4$"
     image: null
+    solution: "$x^2 - 4x + 4 = (x - 2)^2$"
     tags: [factoring, quadratic]
 
   - id: alg-008
@@ -61,6 +68,7 @@ questions:
     points: 3
     text: "Solve the equation: $3x - 7 = 2x + 5$"
     image: null
+    solution: "$3x - 2x = 5 + 7$ → $x = 12$"
     tags: [equations, linear]
 
   - id: alg-009
@@ -69,6 +77,7 @@ questions:
     points: 4
     text: "Expand and simplify: $(2x + 3)(x - 1)$"
     image: null
+    solution: "$(2x + 3)(x - 1) = 2x^2 - 2x + 3x - 3 = 2x^2 + x - 3$"
     tags: [terms, expanding]
 
   - id: alg-010
@@ -77,6 +86,7 @@ questions:
     points: 3
     text: "Solve the equation for $x$: $2(x + 3) = 5x - 3$"
     image: null
+    solution: "$2x + 6 = 5x - 3$ → $9 = 3x$ → $x = 3$"
     tags: [equations, linear]
 
   - id: alg-011
@@ -85,6 +95,7 @@ questions:
     points: 6
     text: "Solve the quadratic equation: $x^2 - 5x + 6 = 0$"
     image: null
+    solution: "Factor: $(x - 2)(x - 3) = 0$ → $x_1 = 2$, $x_2 = 3$"
     tags: [equations, quadratic]
 
   - id: alg-012
@@ -93,6 +104,7 @@ questions:
     points: 6
     text: "Solve the quadratic equation: $2x^2 + 3x - 5 = 0$"
     image: null
+    solution: "Quadratic formula: $x = frac(-3 plus.minus sqrt(9 + 40), 4) = frac(-3 plus.minus 7, 4)$ → $x_1 = 1$, $x_2 = -frac(5, 2)$"
     tags: [equations, quadratic]
 
   - id: alg-013
@@ -101,6 +113,7 @@ questions:
     points: 7
     text: "Solve the system of equations:\n$x + y + z = 6$\n$2x - y + z = 3$\n$x + 2y - z = 4$"
     image: null
+    solution: "$x = frac(11, 7)$, $y = frac(16, 7)$, $z = frac(15, 7)$"
     tags: [system-of-equations, linear]
 
   - id: alg-014
@@ -109,6 +122,7 @@ questions:
     points: 5
     text: "Simplify the rational expression: $frac(x^2 - 9, x - 3)$"
     image: null
+    solution: "$frac((x + 3)(x - 3), x - 3) = x + 3$ for $x != 3$"
     tags: [rational-expressions, factoring]
 
   - id: alg-015
@@ -117,4 +131,5 @@ questions:
     points: 5
     text: "Solve the inequality: $x^2 - 4 > 0$"
     image: null
+    solution: "$x^2 > 4$ → $x < -2$ or $x > 2$"
     tags: [inequalities, quadratic]

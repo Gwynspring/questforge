@@ -41,6 +41,7 @@ struct Question {
   std::string text;
   std::optional<std::filesystem::path> image;
   std::vector<std::string> tags;
+  std::optional<std::string> solution;
 
   bool operator==(const Question& other) const = default;
 };
