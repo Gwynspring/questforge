@@ -38,7 +38,10 @@ void PosixProcessRunner::Run(const std::vector<std::string>& args) const {
   pid_t c_pid = fork();
 
   if (c_pid == -1) {
-    throw std::system_error(errno, std::generic_category(), "fork");
+    const int saved_errno = errno;
+    close(pipefd[0]);
+    close(pipefd[1]);
+    throw std::system_error(saved_errno, std::generic_category(), "fork");
   } else if (c_pid > 0) {
     int status;
 
