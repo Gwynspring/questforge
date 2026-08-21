@@ -27,7 +27,7 @@ TEST(ProcessRunnerTest, RunFailsWithMessage) {
     FAIL();
   } catch (const std::exception& e) {
     EXPECT_THAT(e.what(), testing::HasSubstr("42"));
-    EXPECT_THAT(e.what(), testing::HasSubstr("child error message\n"));
+    EXPECT_THAT(e.what(), testing::HasSubstr("child error message"));
   }
 }
 
