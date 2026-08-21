@@ -97,3 +97,22 @@ target_link_libraries(windows_command_line_test PRIVATE
   questforge_lib
 )
 gtest_discover_tests(windows_command_line_test)
+
+# Helper binary invoked by process_runner_test as a real child process.
+add_executable(test_child
+  test_child.cc
+)
+
+add_executable(process_runner_test
+  process_runner_test.cc
+)
+target_include_directories(process_runner_test PRIVATE ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(process_runner_test PRIVATE
+  GTest::gmock
+  GTest::gtest_main
+  questforge_lib
+)
+target_compile_definitions(process_runner_test PRIVATE
+  TEST_CHILD_PATH="$<TARGET_FILE:test_child>"
+)
+gtest_discover_tests(process_runner_test)
